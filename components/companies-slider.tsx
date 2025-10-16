@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import Image from "next/image";
 
 export default function CompaniesSlider() {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -11,108 +10,129 @@ export default function CompaniesSlider() {
   useEffect(() => {
     if (!sliderRef.current || !containerRef.current) return;
 
-    // Clone the slider content for continuous scrolling
-    const content = sliderRef.current.innerHTML;
-    sliderRef.current.innerHTML = content + content;
+    const slider = sliderRef.current;
+    const container = containerRef.current;
 
-    // Calculate total width
-    const slides = sliderRef.current.children;
+    // Clone content multiple times for seamless loop
+    const content = slider.innerHTML;
+    slider.innerHTML = content + content + content;
+
+    // Calculate width
+    const slides = slider.children;
     let totalWidth = 0;
-    for (let i = 0; i < slides.length / 2; i++) {
+    for (let i = 0; i < slides.length / 3; i++) {
       totalWidth += slides[i].clientWidth;
     }
 
-    // Infinite scroll animation
-    gsap.to(sliderRef.current, {
+    // Smooth infinite animation
+    const tl = gsap.to(slider, {
       x: -totalWidth,
-      duration: 20,
+      duration: 30,
       ease: "none",
       repeat: -1,
     });
 
-    // Pause on hover
-    containerRef.current.addEventListener("mouseenter", () => {
-      gsap.to(sliderRef.current, { timeScale: 0, duration: 0.5 });
-    });
+    // Hover interactions
+    const handleMouseEnter = () => {
+      gsap.to(tl, { timeScale: 0, duration: 0.8, ease: "power2.out" });
+    };
 
-    containerRef.current.addEventListener("mouseleave", () => {
-      gsap.to(sliderRef.current, { timeScale: 1, duration: 0.5 });
-    });
+    const handleMouseLeave = () => {
+      gsap.to(tl, { timeScale: 1, duration: 0.8, ease: "power2.in" });
+    };
+
+    container.addEventListener("mouseenter", handleMouseEnter);
+    container.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      container.removeEventListener("mouseenter", handleMouseEnter);
+      container.removeEventListener("mouseleave", handleMouseLeave);
+      tl.kill();
+    };
   }, []);
 
   const companies = [
-    {
-      name: "Company 1",
-      logo: "/companies/WhatsApp Image 2025-10-16 at 14.36.47 (1).jpeg",
-    },
-    {
-      name: "Company 2",
-      logo: "/companies/WhatsApp Image 2025-10-16 at 14.36.47 (2).jpeg",
-    },
-    {
-      name: "Company 3",
-      logo: "/companies/WhatsApp Image 2025-10-16 at 14.36.47.jpeg",
-    },
-    {
-      name: "Company 4",
-      logo: "/companies/WhatsApp Image 2025-10-16 at 14.37.10.jpeg",
-    },
-    {
-      name: "Company 5",
-      logo: "/companies/WhatsApp Image 2025-10-16 at 14.37.40.jpeg",
-    },
-    {
-      name: "Company 6",
-      logo: "/companies/WhatsApp Image 2025-10-16 at 14.38.53.jpeg",
-    },
-    {
-      name: "Company 7",
-      logo: "/companies/WhatsApp Image 2025-10-16 at 14.39.25.jpeg",
-    },
-    {
-      name: "Company 8",
-      logo: "/companies/WhatsApp Image 2025-10-16 at 14.40.00.jpeg",
-    },
-    {
-      name: "Company 9",
-      logo: "/companies/WhatsApp Image 2025-10-16 at 14.40.37.jpeg",
-    },
-    { name: "Company 10", logo: "/companies/logo_bourse-iv_6.webp" },
+    { name: "APPA", logo: "/companies/APPA.png" },
+    { name: "Bourse de Casablanca", logo: "/companies/BourseDeCasablanca.png" },
+    { name: "Electroplanet", logo: "/companies/Electroplanet.png" },
+    { name: "English SoftSkills", logo: "companies/EnglishSoftSkills.png" },
+    { name: "INAMS", logo: "companies/INAMS.png" },
+    { name: "LinkedIn", logo: "companies/LinkedIn.png" },
+    { name: "Myconos", logo: "companies/MYCONOS.png" },
+    { name: "Marjane", logo: "companies/Marjane-logo.png" },
+    { name: "Shell", logo: "companies/Shell.png" },
+    { name: "TotalEnergies", logo: "companies/TotalEnergies.png" },
+    { name: "ODEC", logo: "companies/ODEC.png" },
   ];
 
   return (
-    <div className="bg-gray-50/50 py-20">
-      <div className="container mx-auto max-w-6xl px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">
-          Ils nous font confiance
-        </h2>
+    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-16">
+      <div className="w-full max-w-6xl mx-auto px-6">
+        {/* Header Section */}
+        <div className="text-center mb-10 space-y-2">
+          <div className="inline-block">
+            <span className="text-xs font-semibold text-indigo-600 tracking-wider uppercase bg-indigo-50 px-3 py-1.5 rounded-full">
+              Nos Partenaires
+            </span>
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+            Ils nous font confiance
+          </h2>
+        </div>
 
-        <div
-          ref={containerRef}
-          className="relative w-full overflow-hidden h-32"
-        >
+        {/* Slider Container */}
+        <div className="relative">
+          {/* Gradient Overlays */}
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-indigo-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
+
           <div
-            ref={sliderRef}
-            className="flex items-center gap-16 absolute py-4"
+            ref={containerRef}
+            className="relative overflow-hidden py-4 cursor-pointer"
+            style={{ height: "100px" }}
           >
-            {companies.map((company, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 h-24 w-48 relative grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
-              >
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm"></div>
-                <Image
-                  src={company.logo}
-                  alt={company.name}
-                  fill
-                  className="object-contain p-4 mix-blend-multiply"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-            ))}
+            <div
+              ref={sliderRef}
+              className="flex items-center gap-6 absolute left-0"
+            >
+              {companies.map((company, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 group"
+                  style={{ width: "180px", height: "80px" }}
+                >
+                  <div className="relative h-full w-full">
+                    {/* Card Background */}
+                    <div className="absolute inset-0 bg-white rounded-2xl shadow-lg shadow-gray-200/50 border border-gray-100 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-indigo-200/50 group-hover:border-indigo-200 group-hover:-translate-y-2"></div>
+                    
+                    {/* Shine Effect */}
+                    <div className="absolute inset-0 rounded-2xl overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                    </div>
+
+                    {/* Logo */}
+                    <div className="relative h-full w-full flex items-center justify-center p-4 grayscale group-hover:grayscale-0 transition-all duration-500">
+                      <img
+                        src={company.logo}
+                        alt={company.name}
+                        className="max-w-full max-h-full object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+
+
+
+
+
+
+
