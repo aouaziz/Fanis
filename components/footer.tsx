@@ -1,17 +1,25 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import { Mail, Phone, MapPin, Instagram, Linkedin, Facebook, Youtube } from "lucide-react"
+import { useEffect, useRef } from "react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Instagram,
+  Linkedin,
+  Facebook,
+  Youtube,
+} from "lucide-react";
 
 export default function Footer() {
-  const footerRef = useRef<HTMLElement>(null)
+  const footerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const loadGSAP = async () => {
-      const { gsap } = await import("gsap")
-      const { ScrollTrigger } = await import("gsap/ScrollTrigger")
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
 
-      if (!footerRef.current) return
+      if (!footerRef.current) return;
 
       gsap.fromTo(
         footerRef.current.querySelectorAll(".footer-col"),
@@ -28,20 +36,22 @@ export default function Footer() {
             trigger: footerRef.current,
             start: "top 80%",
           },
-        },
-      )
-    }
+        }
+      );
+    };
 
-    loadGSAP()
-  }, [])
+    loadGSAP();
+  }, []);
 
   return (
     <footer ref={footerRef} className="bg-[#333333] text-white py-16 px-4">
       <div className="container mx-auto max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="footer-col">
-            <h3 className="text-2xl font-bold text-[#B31818] mb-4">FANIS NETWORK</h3>
-            <p className="text-gray-400 leading-relaxed mb-6">
+            <h3 className="text-2xl font-bold text-[#B31818] mb-4">
+              FANIS NETWORK
+            </h3>
+            <p className="text-white leading-relaxed mb-6">
               Votre partenaire digital pour transformer vos idées en succès.
             </p>
             <div className="flex gap-4">
@@ -88,22 +98,34 @@ export default function Footer() {
             <h4 className="text-lg font-bold mb-4">Liens Rapides</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#services" className="text-gray-400 hover:text-[#B31818] transition-colors">
+                <a
+                  href="#services"
+                  className="text-white/90 hover:text-[#B31818] transition-colors"
+                >
                   Services
                 </a>
               </li>
               <li>
-                <a href="#expertise" className="text-gray-400 hover:text-[#B31818] transition-colors">
+                <a
+                  href="#expertise"
+                  className="text-white/90 hover:text-[#B31818] transition-colors"
+                >
                   Expertise
                 </a>
               </li>
               <li>
-                <a href="#realizations" className="text-gray-400 hover:text-[#B31818] transition-colors">
+                <a
+                  href="#realizations"
+                  className="text-white/90 hover:text-[#B31818] transition-colors"
+                >
                   Réalisations
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-gray-400 hover:text-[#B31818] transition-colors">
+                <a
+                  href="#contact"
+                  className="text-white/90 hover:text-[#B31818] transition-colors"
+                >
                   Contact
                 </a>
               </li>
@@ -113,26 +135,30 @@ export default function Footer() {
           <div className="footer-col md:col-span-2">
             <h4 className="text-lg font-bold mb-4">Contact</h4>
             <ul className="space-y-3">
-              <li className="flex items-center gap-3 text-gray-400 hover:text-[#B31818] transition-colors">
+              <li className="flex items-center gap-3 text-white/90 hover:text-[#B31818] transition-colors">
                 <Mail size={20} className="flex-shrink-0" />
-                <a href="mailto:fanisnetwork@gmail.com">fanisnetwork@gmail.com</a>
+                <a href="mailto:fanisnetwork@gmail.com">
+                  fanisnetwork@gmail.com
+                </a>
               </li>
-              <li className="flex items-center gap-3 text-gray-400 hover:text-[#B31818] transition-colors">
+              <li className="flex items-center gap-3 text-white/90 hover:text-[#B31818] transition-colors">
                 <Phone size={20} className="flex-shrink-0" />
                 <a href="tel:+212666148606">+212 666 148 606</a>
               </li>
-              <li className="flex items-start gap-3 text-gray-400">
+              <li className="flex items-start gap-3 text-white/90">
                 <MapPin size={20} className="flex-shrink-0 mt-1" />
-                <span>Etage 5, App N°22, 75 Bd Moulay Youssef, Casablanca 20250</span>
+                <span>
+                  Etage 5, App N°22, 75 Bd Moulay Youssef, Casablanca 20250
+                </span>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-700 pt-8 text-center text-gray-400">
+        <div className="border-t border-gray-700 pt-8 text-center text-white">
           <p>&copy; 2025 FANIS NETWORK. Tous droits réservés.</p>
         </div>
       </div>
     </footer>
-  )
+  );
 }

@@ -9,6 +9,7 @@ import PortfolioSection from "@/components/portfolio-section";
 import ContactSection from "@/components/contact-section";
 import Footer from "@/components/footer";
 import LoadingScreen from "@/components/loading-screen";
+import CompaniesSlider from "@/components/companies-slider";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -43,6 +44,7 @@ export default function Home() {
       <HeroSection />
       <ServicesSection />
       <WhyChooseSection />
+      <CompaniesSlider />
       <PortfolioSection />
       <ContactSection />
       <Footer />

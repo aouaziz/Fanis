@@ -81,15 +81,11 @@ export default function Navbar() {
             onClick={() => scrollToSection("top")}
             className="cursor-pointer select-none"
           >
-            <span className="text-2xl font-bold tracking-tight hover:scale-105 transition-all duration-300 relative group">
-              <span className="bg-gradient-to-r from-[#1E293B] via-[#334155] to-[#1E293B] bg-clip-text text-transparent">
-                FANIS
-              </span>
-              <span className="bg-gradient-to-r from-[#7A0F0F] via-[#B31818] to-[#7A0F0F] bg-clip-text text-transparent ml-2">
-                NETWORK
-              </span>
-              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-[#7A0F0F]/0 via-[#B31818] to-[#7A0F0F]/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-            </span>
+            <img
+              src="/logo.png"
+              alt="Fanis Network Logo"
+              className="h-12 w-auto hover:scale-105 transition-all duration-300"
+            />
           </div>
 
           {/* Desktop Menu */}
@@ -122,7 +118,7 @@ export default function Navbar() {
               onClick={() => scrollToSection("contact")}
               className="relative overflow-hidden bg-[#B31818] text-white rounded-full px-8 py-5 font-medium group hover:shadow-[0_0_20px_rgba(179,24,24,0.3)] transition-all duration-500 flex items-center gap-2"
             >
-              Réserver 
+              Réserver
               <ArrowRight
                 size={16}
                 className="transition-transform duration-300 group-hover:translate-x-1"
