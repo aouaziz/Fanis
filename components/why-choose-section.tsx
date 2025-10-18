@@ -136,7 +136,7 @@ export default function WhyChooseSection() {
 
   return (
     <section
-      id="expertise"
+      id="about"
       ref={sectionRef}
       className="py-24 px-4 relative overflow-hidden bg-gradient-to-b from-[#F8F8F8] via-white to-[#F8F8F8]"
     >

@@ -82,7 +82,7 @@ export default function PortfolioSection() {
 
   return (
     <section
-      id="realizations"
+      id="portfolio"
       ref={sectionRef}
       className="py-24 px-4 relative bg-white overflow-hidden"
     >

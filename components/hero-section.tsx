@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 export default function HeroSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -182,8 +181,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section
-      ref={sectionRef}
+    <section id="home"
       className="relative min-h-screen flex items-center justify-center pt-20 px-4 overflow-hidden bg-gradient-to-br from-white via-blue-50 to-white"
     >
       {/* Animated background */}
@@ -192,52 +190,63 @@ export default function HeroSection() {
         className="absolute inset-0 w-full h-full"
         style={{ opacity: 0.6 }}
       />
-
-      {/* Content */}
+{/* Content */}
       <div
-        ref={contentRef}
         className="container mx-auto max-w-6xl text-center relative z-10"
       >
         <div className="space-y-6">
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-[#333] tracking-tight">
-            Transformez Votre Entreprise{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#007BFF] to-[#B31818]">
-              Avec L'Excellence Digitale
+          
+          {/* New Optimized Title */}
+          <h1 
+            id="hero-title"
+            className="text-4xl sm:text-5xl lg:text-7xl font-bold text-[#333] tracking-tight leading-tight"
+          >
+            Propulsez Votre Entreprise avec
+            <span className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-[#007BFF] to-[#B31818]">
+              L'Excellence Digitale
             </span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-[#333]/70 max-w-3xl mx-auto leading-relaxed">
-            L'agence digitale de référence à Casablanca, offrant des résultats
-            mesurables grâce à une stratégie de marque innovante, un
-            développement web de pointe et des campagnes marketing performantes.
+          {/* New Optimized Description with Keywords */}
+          <p className="text-lg sm:text-xl text-[#333]/80 max-w-4xl mx-auto leading-relaxed">
+            Fanis Network, l'agence digitale de référence à Casablanca, offre des résultats 
+            mesurables grâce à une stratégie de marque innovante, un développement web de pointe et des 
+            campagnes marketing digital performantes au Maroc. Transformez votre présence 
+            en ligne avec des solutions sur mesure.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+          {/* Optimized CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
+            
+            {/* Primary Button */}
             <Button
               size="lg"
-              className="bg-[#007BFF] hover:bg-[#0056b3] text-white text-lg px-8 py-6 rounded-full shadow-lg transition-all duration-200 relative overflow-hidden group"
+              className="bg-[#007BFF] hover:bg-[#0056b3] text-white text-lg px-10 py-6 rounded-full shadow-lg transition-all duration-300 relative overflow-hidden group transform hover:scale-105 w-full sm:w-auto"
               onClick={() => scrollToSection("contact")}
+              aria-label="Réserver une consultation gratuite avec Fanis Network"
             >
-              <span className="relative z-10">
+              <span className="relative z-10 flex items-center justify-center sm:justify-start">
                 Réserver Une Consultation Gratuite
+                <ArrowRight className="ml-3 relative z-10 group-hover:translate-x-1 transition-transform duration-200" size={20} />
               </span>
-              <ArrowRight
-                className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform duration-200"
-                size={20}
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#007BFF] to-[#0056b3] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#007BFF] to-[#0056b3] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Button>
 
+            {/* Secondary Button */}
             <Button
               size="lg"
               variant="outline"
-              className="text-lg px-8 py-6 rounded-full border-2 border-[#007BFF] text-[#007BFF] hover:bg-[#007BFF] hover:text-white transition-colors duration-200 bg-white/80 backdrop-blur-sm"
+              className="text-lg px-10 py-6 rounded-full border-2 border-[#007BFF] text-[#007BFF] hover:bg-[#007BFF] hover:text-white transition-all duration-300 bg-white/90 backdrop-blur-sm transform hover:scale-105 w-full sm:w-auto"
               onClick={() => scrollToSection("portfolio")}
+              aria-label="Voir nos réalisations et études de cas"
             >
-              Voir Nos Réalisations
+              <span className="flex items-center justify-center sm:justify-start">
+                Voir Nos Réalisations
+              </span>
             </Button>
           </div>
         </div>
+      
       </div>
     </section>
   );

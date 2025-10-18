@@ -16,19 +16,31 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-      const sections = ["services", "expertise", "realizations", "contact"];
+      const sections = ["home", "services",  "about" ,"portfolio", "contact"];
+      let currentActiveSection = "";
+
+      // Add a default for the very top of the page
+      if (window.scrollY < 200) {
+        setActiveSection("home");
+        return;
+      }
+
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
+          const offset = 150;
+         if (rect.top <= offset && rect.bottom > offset) {
+            currentActiveSection = section;
             break;
           }
         }
       }
+      if (currentActiveSection) {
+        setActiveSection(currentActiveSection);
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -52,10 +64,23 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { href: "#services", label: "Services" },
-    { href: "#expertise", label: "Expertise" },
-    { href: "#realizations", label: "Réalisations" },
-    { href: "#contact", label: "Contact" },
+    { label: "Accueil", href: "#home", keywords: "agence digitale Casablanca" },
+    {
+      label: "Services",
+      href: "#services",
+      keywords: "services marketing digital",
+    },
+    {
+      label: "Portfolio",
+      href: "#portfolio",
+      keywords: "réalisations agence web",
+    },
+    { label: "À Propos", href: "#about", keywords: "équipe agence digitale" },
+    {
+      label: "Contact",
+      href: "#contact",
+      keywords: "contact agence Casablanca",
+    },
   ];
 
   // Close mobile menu on Escape
@@ -89,31 +114,35 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(link.href.replace("#", ""));
-                }}
-                className={`relative text-[15px] font-medium tracking-wide transition-all duration-300 group ${
-                  activeSection === link.href.replace("#", "")
-                    ? "text-[#B31818]"
-                    : "text-gray-700 hover:text-[#B31818]"
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-gradient-to-r from-[#7A0F0F]/20 via-[#B31818] to-[#7A0F0F]/20 transition-all duration-300 ${
+          <div className="hidden md:flex items-center justify-center flex-1">
+            <div className="flex items-center gap-14">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(link.href.replace("#", ""));
+                  }}
+                  className={`relative text-[15px] font-medium tracking-wide transition-all duration-300 group ${
                     activeSection === link.href.replace("#", "")
-                      ? "w-full"
-                      : "w-0 group-hover:w-full"
+                      ? "text-[#B31818]"
+                      : "text-gray-700 hover:text-[#B31818]"
                   }`}
-                />
-              </a>
-            ))}
+                >
+                  {link.label}
+                  <span
+                    className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-gradient-to-r from-[#7A0F0F]/20 via-[#B31818] to-[#7A0F0F]/20 transition-all duration-300 ${
+                      activeSection === link.href.replace("#", "")
+                        ? "w-full"
+                        : "w-0 group-hover:w-full"
+                    }`}
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="hidden md:flex items-center">
             <Button
               onClick={() => scrollToSection("contact")}
               className="relative overflow-hidden bg-[#B31818] text-white rounded-full px-8 py-5 font-medium group hover:shadow-[0_0_20px_rgba(179,24,24,0.3)] transition-all duration-500 flex items-center gap-2"
