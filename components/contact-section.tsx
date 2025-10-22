@@ -141,21 +141,7 @@ export default function ContactSection() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#007BFF]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <MapPin className="text-[#007BFF]" size={24} />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-[#333333] mb-1">Adresse</div>
-                    <div className="text-[#333333]/70">
-                      Etage 5, App N°22,
-                      <br />
-                      75 Bd Moulay Youssef,
-                      <br />
-                      Casablanca 20250
-                    </div>
-                  </div>
-                </div>
+               
               </div>
             </div>
 

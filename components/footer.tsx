@@ -148,7 +148,7 @@ export default function Footer() {
               <li className="flex items-start gap-3 text-white/90">
                 <MapPin size={20} className="flex-shrink-0 mt-1" />
                 <span>
-                  Etage 5, App N°22, 75 Bd Moulay Youssef, Casablanca 20250
+                  75 Bd Moulay Youssef, Etage 5, App N°22, Casablanca 20250
                 </span>
               </li>
             </ul>
