@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -9,8 +9,21 @@ export default function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const MIN_DESKTOP_WIDTH = 640; // Tailwind's 'sm' breakpoint
+    let animationFrameId: number; // To track and cancel the animation loop
+
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // 1. STOP ANIMATION ON MOBILE FOR BATTERY SAVINGS
+    // If the device is mobile on mount, skip all heavy canvas setup and animation.
+    if (typeof window !== "undefined" && window.innerWidth < MIN_DESKTOP_WIDTH) {
+        // The canvas is hidden via the CSS class (hidden sm:block), so we just
+        // skip the expensive JS part and set up a minimal cleanup.
+        return () => {
+            // Cleanup function will be called on unmount
+        };
+    }
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -25,6 +38,7 @@ export default function HeroSection() {
     };
 
     setCanvasSize();
+    // Only add resize listener if animation is running (i.e., not on mobile)
     window.addEventListener("resize", setCanvasSize);
 
     // Create particles
@@ -85,6 +99,14 @@ export default function HeroSection() {
     // Animation loop
     const animate = () => {
       if (!ctx) return;
+
+      // Double-check if screen resized to mobile orientation during runtime
+      if (window.innerWidth < MIN_DESKTOP_WIDTH) {
+          if (animationFrameId) {
+              cancelAnimationFrame(animationFrameId);
+          }
+          return;
+      }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -164,15 +186,20 @@ export default function HeroSection() {
         });
       });
 
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
 
     return () => {
       window.removeEventListener("resize", setCanvasSize);
+      // Cancel the animation loop on unmount
+      if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+      }
     };
   }, []);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -184,44 +211,42 @@ export default function HeroSection() {
     <section id="home"
       className="relative min-h-screen flex items-center justify-center pt-20 px-4 overflow-hidden bg-gradient-to-br from-white via-blue-50 to-white"
     >
-      {/* Animated background */}
+      {/* 2. BACKGROUND ANIMATION HIDDEN ON MOBILE (via Tailwind's 'hidden sm:block') */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
+        // Fix: 'hidden sm:block' ensures the canvas is only visible/rendered on screens >= 640px
+        className="hidden sm:block absolute inset-0 w-full h-full" 
         style={{ opacity: 0.6 }}
       />
-{/* Content */}
+      {/* Content */}
       <div
         className="container mx-auto max-w-6xl text-center relative z-10"
       >
         <div className="space-y-6">
           
-          {/* New Optimized Title */}
+          {/* Title - Uses mobile-first text scaling (text-4xl then sm:text-5xl lg:text-7xl) */}
           <h1 
             id="hero-title"
-            className="text-4xl sm:text-5xl lg:text-7xl font-bold text-[#333] tracking-tight leading-tight"
+            className="text-4xl sm:text-5xl lg:text-7xl font-bold text-[#B31818]  tracking-tight leading-tight"
           >
-            Propulsez Votre Entreprise avec
+            FANIS NETWORK
             <span className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-[#007BFF] to-[#B31818]">
-              L'Excellence Digitale
+               nous créons les liens  qui valorisent votre image
             </span>
           </h1>
 
-          {/* New Optimized Description with Keywords */}
+          {/* Description - Uses mobile-first text scaling (text-lg then sm:text-xl) */}
           <p className="text-lg sm:text-xl text-[#333]/80 max-w-4xl mx-auto leading-relaxed">
-            Fanis Network, l'agence digitale de référence à Casablanca, offre des résultats 
-            mesurables grâce à une stratégie de marque innovante, un développement web de pointe et des 
-            campagnes marketing digital performantes au Maroc. Transformez votre présence 
-            en ligne avec des solutions sur mesure.
+            Fanis Network, Agence de marketing et de communication créative basée à Casablanca, spécialisée dans la transformation digitale, le branding et la production audiovisuelle.
           </p>
 
-          {/* Optimized CTA Buttons */}
+          {/* CTA Buttons - Uses flex-col (stacked) on mobile and sm:flex-row (side-by-side) on larger screens */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
             
             {/* Primary Button */}
             <Button
               size="lg"
-              className="bg-[#007BFF] hover:bg-[#0056b3] text-white text-lg px-10 py-6 rounded-full shadow-lg transition-all duration-300 relative overflow-hidden group transform hover:scale-105 w-full sm:w-auto"
+              className="bg-[#007BFF] hover:bg-[#0057b3] text-white text-lg px-10 py-6 rounded-full shadow-lg transition-all duration-300 relative overflow-hidden group transform hover:scale-105 w-full sm:w-auto" // w-full for full-width on mobile
               onClick={() => scrollToSection("contact")}
               aria-label="Réserver une consultation gratuite avec Fanis Network"
             >
@@ -236,7 +261,7 @@ export default function HeroSection() {
             <Button
               size="lg"
               variant="outline"
-              className="text-lg px-10 py-6 rounded-full border-2 border-[#007BFF] text-[#007BFF] hover:bg-[#007BFF] hover:text-white transition-all duration-300 bg-white/90 backdrop-blur-sm transform hover:scale-105 w-full sm:w-auto"
+              className="text-lg px-10 py-6 rounded-full border-2 border-[#007BFF] text-[#007BFF] hover:bg-[#007BFF] hover:text-white transition-all duration-300 bg-white/90 backdrop-blur-sm transform hover:scale-105 w-full sm:w-auto" // w-full for full-width on mobile
               onClick={() => scrollToSection("portfolio")}
               aria-label="Voir nos réalisations et études de cas"
             >

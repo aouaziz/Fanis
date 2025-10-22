@@ -7,16 +7,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function ContactSection() {
+  // NOTE: formData and handleSubmit are no longer strictly needed for FormSubmit
+  // but kept for form control if you switch to a custom backend later.
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     comment: "",
+    // Include a hidden _replyto field to set the sender's email if you collect it.
+    // For now, we'll use a hidden subject field.
   });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -39,14 +38,26 @@ export default function ContactSection() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-lg space-y-4">
+          {/* 🔑 KEY CHANGE: Using FormSubmit for easy email delivery 🔑 */}
+          <form 
+            action="https://formsubmit.co/fanisnetwork@gmail.com" // 🎯 Sends data to this email
+            method="POST" 
+            className="bg-white p-8 rounded-2xl shadow-lg space-y-4"
+          >
+            {/* FormSubmit Honeypot (Recommended) */}
+            <input type="hidden" name="_honeypot" value="true" />
+            {/* FormSubmit Subject (Optional, sets email subject line) */}
+            <input type="hidden" name="_subject" value="Nouvelle Consultation Gratuite de FANIS NETWORK" />
+            {/* FormSubmit Thank You Page (Optional, redirect after submit) */}
+            <input type="hidden" name="_next" value="https://fanis-network.com/merci-contact" />
+
             <div>
               <label htmlFor="name" className="block text-sm font-semibold text-[#333333] mb-2">
                 Nom <span className="text-[#B31818]">*</span>
               </label>
               <Input
                 id="name"
-                name="name"
+                name="name" // MUST have a name attribute
                 type="text"
                 required
                 value={formData.name}
@@ -62,7 +73,7 @@ export default function ContactSection() {
               </label>
               <Input
                 id="phone"
-                name="phone"
+                name="phone" // MUST have a name attribute
                 type="tel"
                 required
                 value={formData.phone}
@@ -71,14 +82,14 @@ export default function ContactSection() {
                 placeholder="+212 6XX XX XX XX"
               />
             </div>
-
+            
             <div>
               <label htmlFor="comment" className="block text-sm font-semibold text-[#333333] mb-2">
                 Commentaire <span className="text-[#333333]/50 text-xs">(Optionnel)</span>
               </label>
               <Textarea
                 id="comment"
-                name="comment"
+                name="comment" // MUST have a name attribute
                 value={formData.comment}
                 onChange={handleChange}
                 className="w-full border-[#CCCCCC] focus:border-[#007BFF] focus:ring-[#007BFF] min-h-[120px] resize-none"
@@ -87,13 +98,14 @@ export default function ContactSection() {
             </div>
 
             <Button
-              type="submit"
+              type="submit" // 🚀 This will now submit the form to the 'action' URL
               className="w-full bg-[#B31818] hover:bg-[#8B1212] text-white py-6 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 mt-6"
             >
               Réserver Une Consultation Gratuite
             </Button>
           </form>
 
+          {/* ... (rest of the contact info section remains the same) ... */}
           <div className="space-y-8">
             <div className="bg-white p-8 rounded-2xl shadow-lg">
               <h3 className="text-2xl font-bold text-[#333333] mb-6">Contactez-Nous</h3>
