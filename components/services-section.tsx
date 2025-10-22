@@ -6,40 +6,42 @@ import { Card, CardContent } from "@/components/ui/card"
 
 const services = [
   {
+    icon: Building2,
+    title: "Département Commercial",
+    description:
+      "Externalisation complète de la force de vente : prospection, suivi des leads, gestion des appels et accompagnement commercial personnalisé pour booster vos performances.",
+  },
+  {
     icon: Palette,
     title: "Identité de Marque & Design",
     description:
-      "Création d'identité axée sur les valeurs, conception de logo, guides de style et design professionnel d'actifs corporatifs.",
-  },
-  {
-    icon: Code,
-    title: "Développement Web & Applications",
-    description: "Conception de sites web haute performance et développement personnalisé d'applications mobiles.",
+      "Création d’identités visuelles fortes et cohérentes : logo, charte graphique, supports professionnels et univers de marque sur mesure.",
   },
   {
     icon: TrendingUp,
     title: "Publicité de Performance",
-    description: "Gestion complète de campagnes payantes avec optimisation continue du ROI.",
+    description:
+      "Campagnes publicitaires multicanales optimisées pour maximiser le retour sur investissement et générer des résultats mesurables.",
   },
   {
     icon: Video,
-    title: "Production Vidéo Créative",
+    title: "Production Audiovisuelle",
     description:
-      "Vidéos marketing de haute qualité, orientées résultats pour le e-commerce et le storytelling d'entreprise.",
+      "Création de vidéos publicitaires, institutionnelles et sociales à fort impact visuel, alignées sur votre stratégie de marque.",
   },
   {
     icon: Users,
-    title: "Gestion Stratégique des Réseaux Sociaux",
-    description: "Community management professionnel, stratégie de contenu et supervision du marketing d'influence.",
-  },
-  {
-    icon: Building2,
-    title: "Solutions Digitales Immobilières",
+    title: "Gestion des Réseaux Sociaux",
     description:
-      "Sites web immobiliers, visites virtuelles, marketing digital et solutions CRM pour professionnels de l'immobilier.",
+      "Stratégie de contenu, animation de communauté et marketing d’influence pour renforcer votre présence et votre notoriété en ligne.",
   },
-]
-
+    {
+    icon: Code,
+    title: "Sites Web",
+    description:
+      "Conception et développement de sites web performants, modernes et adaptés à vos objectifs marketing et commerciaux.",
+  },
+];
 export default function ServicesSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
