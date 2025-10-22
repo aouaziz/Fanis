@@ -39,12 +39,9 @@ export default function Location() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={contentRef} className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-6">
-            <MapPin className="w-4 h-4 mr-2" />
-            APPA À CASABLANCA
-          </div>
+         
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-            Notre Campus
+            FANIS À CASABLANCA
           </h2>
           <p className="text-xl text-white/80">
             75 Bd Moulay Youssef, Etage 5, App N°22, Casablanca 20250
