@@ -70,11 +70,11 @@ export default function Navbar() {
       href: "#services",
       keywords: "services marketing digital",
     },
-    {
-      label: "Portfolio",
-      href: "#portfolio",
-      keywords: "réalisations agence web",
-    },
+    // {
+    //   label: "Portfolio",
+    //   href: "#portfolio",
+    //   keywords: "réalisations agence web",
+    // },
     { label: "À Propos", href: "#about", keywords: "équipe agence digitale" },
     {
       label: "Contact",
