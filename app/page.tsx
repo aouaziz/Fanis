@@ -11,6 +11,7 @@ import CompaniesSlider from "@/components/companies-slider";
 export default function Home() {
   return (
     <main className="min-h-screen bg-background relative z-10">
+      
       <Navbar />
       <HeroSection />
       <ServicesSection />

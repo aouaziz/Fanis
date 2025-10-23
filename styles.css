@@ -15,7 +15,7 @@
   --secondary: #3f3f46; /* Zinc Grey */
   --secondary-foreground: #ffffff;
   --muted: #27272a; /* Dark Muted */
-  --muted-foreground: #a1a1aa; /* Light Grey */
+  --muted-foreground: #d4d4d4; /* Brighter Grey */
   --accent: #dc2626;
   --accent-foreground: #ffffff;
   --destructive: oklch(0.577 0.245 27.325);
@@ -127,6 +127,7 @@
     background: #0a0a0a;
     color: #ffffff;
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
     @apply bg-background text-foreground;
   }
 }
@@ -183,7 +184,7 @@ html {
   width: 100%;
   height: 600px;
   overflow: hidden;
-  border: 1px solid #1a1a1a;
+  border: 1px solid rgba(26, 26, 26, 0.8);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
@@ -238,8 +239,8 @@ html {
 .form-input,
 .form-textarea {
   width: 100%;
-  background: #1a1a1a;
-  border: 1px solid #3f3f46;
+  background: rgba(26, 26, 26, 0.9);
+  border: 1px solid rgba(63, 63, 70, 0.8);
   color: #ffffff;
   font-size: 1rem;
   padding: 1rem 1.25rem;
@@ -261,7 +262,7 @@ html {
 .contact-icon {
   width: 48px;
   height: 48px;
-  border: 1px solid #3f3f46;
+  border: 1px solid rgba(63, 63, 70, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;

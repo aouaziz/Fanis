@@ -182,9 +182,10 @@ function Navbar() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          background: rgba(10, 10, 10, 0.9);
+          background: rgba(10, 10, 10, 0.95);
           backdrop-filter: blur(10px);
-          border-bottom: 1px solid #1a1a1a;
+          border-bottom: 1px solid rgba(26, 26, 26, 0.8);
+          transition: background 0.3s ease, border-color 0.3s ease;
         }
 
         .logo {
@@ -204,7 +205,7 @@ function Navbar() {
         }
 
         .nav-center a {
-          color: #a1a1aa;
+          color: #d4d4d4;
           font-size: 0.9rem;
           transition: color 0.3s;
         }
@@ -375,7 +376,7 @@ function Navbar() {
 
         .menu-right a {
           font-size: clamp(2rem, 4vw, 3.5rem);
-          color: #71717a;
+          color: rgba(212, 212, 212, 0.7);
           text-decoration: none;
           transition: color 0.3s;
           font-weight: 300;
@@ -412,12 +413,12 @@ function Navbar() {
         .social-icon {
           width: 44px;
           height: 44px;
-          border: 1px solid #3f3f46;
+          border: 1px solid rgba(63, 63, 70, 0.8);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #a1a1aa;
+          color: #d4d4d4;
           transition: all 0.3s ease;
         }
 

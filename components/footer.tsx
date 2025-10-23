@@ -183,7 +183,7 @@ export default function Footer() {
           padding: 5rem 2rem 3rem;
           position: relative;
           overflow: hidden;
-          border-top: 1px solid #1a1a1a;
+          border-top: 1px solid rgba(26, 26, 26, 0.8);
         }
 
         .footer-container {
@@ -217,7 +217,7 @@ export default function Footer() {
         }
 
         .brand-description {
-          color: #a1a1aa;
+          color: #d4d4d4;
           font-size: 0.95rem;
           line-height: 1.6;
           margin-bottom: 1.5rem;
@@ -231,14 +231,14 @@ export default function Footer() {
         .social-icon {
           width: 44px;
           height: 44px;
-          border: 1px solid #3f3f46;
+          border: 1px solid rgba(63, 63, 70, 0.8);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #a1a1aa;
+          color: #d4d4d4;
           transition: all 0.3s ease;
-          background: rgba(26, 26, 26, 0.8);
+          background: rgba(26, 26, 26, 0.9);
           backdrop-filter: blur(10px);
         }
 
@@ -266,7 +266,7 @@ export default function Footer() {
         }
 
         .footer-links a {
-          color: #a1a1aa;
+          color: #d4d4d4;
           font-size: 0.95rem;
           transition: all 0.3s ease;
           display: inline-block;
@@ -292,7 +292,7 @@ export default function Footer() {
           display: flex;
           align-items: flex-start;
           gap: 0.75rem;
-          color: #a1a1aa;
+          color: #d4d4d4;
           font-size: 0.95rem;
           line-height: 1.5;
         }
@@ -300,11 +300,11 @@ export default function Footer() {
         .contact-icon {
           flex-shrink: 0;
           margin-top: 0.15rem;
-          color: #71717a;
+          color: #d4d4d4;
         }
 
         .contact-info a {
-          color: #a1a1aa;
+          color: #d4d4d4;
           transition: color 0.3s ease;
         }
 
@@ -314,12 +314,12 @@ export default function Footer() {
 
         .footer-bottom {
           padding-top: 2.5rem;
-          border-top: 1px solid #1a1a1a;
+          border-top: 1px solid rgba(26, 26, 26, 0.8);
           text-align: center;
         }
 
         .footer-bottom p {
-          color: #71717a;
+          color: #d4d4d4;
           font-size: 0.9rem;
         }
 

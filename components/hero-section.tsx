@@ -163,7 +163,7 @@ function HeroSection() {
           justify-content: center;
           gap: -2rem;
           animation: float 8s ease-in-out infinite;
-          opacity: 0.15;
+          opacity: 0.25;
         }
 
         @keyframes float {
@@ -184,9 +184,9 @@ function HeroSection() {
           fill: none;
           stroke-linecap: round;
           stroke-linejoin: round;
-          filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.25));
+          filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
           animation: chevronPulse 4s ease-in-out infinite;
-          opacity: 0.6;
+          opacity: 0.8;
           flex-shrink: 0;
           z-index: 2;
         }
@@ -201,12 +201,12 @@ function HeroSection() {
 
         @keyframes chevronPulse {
           0%, 100% {
-            opacity: 0.6;
-            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.25));
+            opacity: 0.8;
+            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
           }
           50% {
             opacity: 1;
-            filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.4));
+            filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.5));
           }
         }
 
@@ -323,7 +323,7 @@ function HeroSection() {
         }
 
         .subtitle {
-          color: #a1a1aa;
+          color: #d4d4d4;
           font-size: clamp(1rem, 1.3vw, 1.15rem);
           line-height: 1.65;
           margin-bottom: 2.5rem;
@@ -371,7 +371,7 @@ function HeroSection() {
         .hero-description {
           flex: 1;
           max-width: 440px;
-          color: #a1a1aa;
+          color: #d4d4d4;
           font-size: clamp(0.9rem, 1.1vw, 1rem);
           line-height: 1.65;
           font-weight: 400;
@@ -391,11 +391,11 @@ function HeroSection() {
 
         .tag {
           padding: 0.6rem 1.4rem;
-          border: 1px solid #3f3f46;
+          border: 1px solid rgba(63, 63, 70, 0.9);
           border-radius: 50px;
           font-size: 0.7rem;
-          color: #a1a1aa;
-          background: rgba(26, 26, 26, 0.8);
+          color: #d4d4d4;
+          background: rgba(26, 26, 26, 0.9);
           backdrop-filter: blur(10px);
           transition: all 0.3s ease;
           font-weight: 500;
@@ -408,6 +408,7 @@ function HeroSection() {
           color: #ffffff;
           background: rgba(220, 38, 38, 0.2);
           transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
 
         @media (min-width: 1280px) {
