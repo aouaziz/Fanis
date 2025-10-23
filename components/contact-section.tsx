@@ -1,25 +1,146 @@
 "use client";
 
-import { useState } from "react";
-// NOTE: Assuming these are custom components you have access to.
-// I will not modify the imported component structure.
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 export default function ContactSection() {
-  // NOTE: formData and handleSubmit are no longer strictly needed for FormSubmit
-  // but kept for form control if you switch to a custom backend later.
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     comment: "",
-    // Include a hidden _replyto field to set the sender's email if you collect it.
-    // For now, we'll use a hidden subject field.
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const subtitleRef = useRef<HTMLParagraphElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const contactInfoRef = useRef<HTMLDivElement | null>(null);
+  const formFieldsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const contactItemsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Split title text for character animation
+      const split = new SplitText(titleRef.current, { 
+        type: "chars,words",
+        charsClass: "char",
+        wordsClass: "word"
+      });
+
+      // Animate title characters with stagger
+      gsap.from(split.chars, {
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        opacity: 0,
+        y: 120,
+        rotateX: -90,
+        stagger: {
+          each: 0.03,
+          from: "start",
+        },
+        duration: 1.2,
+        ease: "power4.out",
+      });
+
+      // Subtitle animation with blur
+      gsap.from(subtitleRef.current, {
+        scrollTrigger: {
+          trigger: subtitleRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        opacity: 0,
+        y: 50,
+        filter: "blur(10px)",
+        duration: 1.2,
+        delay: 0.4,
+        ease: "power3.out",
+      });
+
+      // Form animation - container scale
+      gsap.from(formRef.current, {
+        scrollTrigger: {
+          trigger: formRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        opacity: 0,
+        scale: 0.95,
+        x: -30,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      // Animate individual form fields with stagger
+      formFieldsRef.current.forEach((field, index) => {
+        if (field) {
+          gsap.from(field, {
+            scrollTrigger: {
+              trigger: field,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            delay: 0.1 * index,
+            ease: "power3.out",
+          });
+        }
+      });
+
+      // Contact info animation
+      gsap.from(contactInfoRef.current, {
+        scrollTrigger: {
+          trigger: contactInfoRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        opacity: 0,
+        scale: 0.95,
+        x: 30,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      // Animate contact items with stagger
+      contactItemsRef.current.forEach((item, index) => {
+        if (item) {
+          gsap.from(item, {
+            scrollTrigger: {
+              trigger: item,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+            opacity: 0,
+            x: 50,
+            duration: 0.8,
+            delay: 0.15 * index,
+            ease: "power3.out",
+          });
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -27,129 +148,203 @@ export default function ContactSection() {
   };
 
   return (
-    // MODIFICATION 1: Reduced vertical padding on mobile (py-16) while keeping py-24 for large screens.
-    <section id="contact" className="py-16 lg:py-24 px-4 relative bg-[#EEEEEE]">
-      <div className="container mx-auto max-w-7xl">
-        <div className="text-center mb-16">
-          {/* Adjusted H2 size flow for slightly better mobile line breaks */}
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-[#333333]">
-            Prêt à Élever Votre
-            <span className="block text-[#B31818]">Présence Digitale?</span>
+    <section 
+      ref={sectionRef} 
+      id="contact" 
+      className="contact-section min-h-screen relative overflow-hidden py-32 px-4 md:px-8 lg:px-12"
+    >
+      <div className="max-w-[1400px] w-full mx-auto">
+        {/* Header */}
+        <div className="mb-24 md:mb-32">
+          <h2 
+            ref={titleRef} 
+            className="text-[2.75rem] md:text-[4.5rem] lg:text-[6rem] xl:text-[7rem] leading-[0.95] mb-8 md:mb-10 font-light text-white tracking-[-0.03em]"
+            style={{ 
+              textRendering: 'optimizeLegibility',
+              WebkitFontSmoothing: 'antialiased',
+              perspective: '1000px'
+            }}
+          >
+            Parlons De Votre Projet.
           </h2>
-          <p className="text-lg text-[#333333]/70 max-w-2xl mx-auto">
-            Discutons d'une stratégie complète adaptée exclusivement à votre entreprise
+          <p 
+            ref={subtitleRef} 
+            className="text-lg md:text-xl lg:text-2xl text-zinc-400 max-w-3xl leading-relaxed font-light tracking-[-0.01em]"
+          >
+            Commençons par une conversation. Partagez votre vision, et nous
+            créerons quelque chose d'exceptionnel ensemble.
           </p>
         </div>
 
-        {/* MODIFICATION 2: Reduced the gap between the form and contact info blocks on mobile (gap-8) from the original gap-12. */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
-          {/* 🔑 KEY CHANGE: Using FormSubmit for easy email delivery 🔑 */}
-          <form 
-            action="https://formsubmit.co/fanisnetwork@gmail.com" // 🎯 Sends data to this email
-            method="POST" 
-            // MODIFICATION 3: Reduced interior padding on the smallest screens (p-6) from the original p-8.
-            className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg space-y-4"
+        {/* Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-28">
+          {/* Form */}
+          <form
+            ref={formRef}
+            action="https://formsubmit.co/fanisnetwork@gmail.com"
+            method="POST"
+            className="flex flex-col gap-10"
           >
-            {/* FormSubmit Honeypot (Recommended) */}
             <input type="hidden" name="_honeypot" value="true" />
-            {/* FormSubmit Subject (Optional, sets email subject line) */}
-            <input type="hidden" name="_subject" value="Nouvelle Consultation Gratuite de FANIS NETWORK" />
-            {/* FormSubmit Thank You Page (Optional, redirect after submit) */}
-            <input type="hidden" name="_next" value="https://fanis-network.com/merci-contact" />
+            <input
+              type="hidden"
+              name="_subject"
+              value="Nouvelle Consultation de FANIS NETWORK"
+            />
+            <input
+              type="hidden"
+              name="_next"
+              value="https://fanis-network.com/merci"
+            />
 
-            <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-[#333333] mb-2">
-                Nom <span className="text-[#B31818]">*</span>
+            <div 
+              ref={(el) => (formFieldsRef.current[0] = el)}
+              className="flex flex-col gap-4"
+            >
+              <label htmlFor="name" className="text-sm font-medium text-white tracking-wide">
+                Nom complet
               </label>
               <Input
                 id="name"
-                name="name" // MUST have a name attribute
+                name="name"
                 type="text"
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full border-[#CCCCCC] focus:border-[#007BFF] focus:ring-[#007BFF]"
-                placeholder="Votre nom complet"
+                className="form-input"
+                placeholder="Votre nom"
               />
             </div>
 
-            <div>
-              <label htmlFor="phone" className="block text-sm font-semibold text-[#333333] mb-2">
-                Numéro de Téléphone <span className="text-[#B31818]">*</span>
+            <div 
+              ref={(el) => (formFieldsRef.current[1] = el)}
+              className="flex flex-col gap-4"
+            >
+              <label htmlFor="phone" className="text-sm font-medium text-white tracking-wide">
+                Téléphone
               </label>
               <Input
                 id="phone"
-                name="phone" // MUST have a name attribute
+                name="phone"
                 type="tel"
                 required
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full border-[#CCCCCC] focus:border-[#007BFF] focus:ring-[#007BFF]"
+                className="form-input"
                 placeholder="+212 6XX XX XX XX"
               />
             </div>
-            
-            <div>
-              <label htmlFor="comment" className="block text-sm font-semibold text-[#333333] mb-2">
-                Commentaire <span className="text-[#333333]/50 text-xs">(Optionnel)</span>
+
+            <div 
+              ref={(el) => (formFieldsRef.current[2] = el)}
+              className="flex flex-col gap-4"
+            >
+              <label htmlFor="comment" className="text-sm font-medium text-white tracking-wide">
+                Message
               </label>
               <Textarea
                 id="comment"
-                name="comment" // MUST have a name attribute
+                name="comment"
                 value={formData.comment}
                 onChange={handleChange}
-                className="w-full border-[#CCCCCC] focus:border-[#007BFF] focus:ring-[#007BFF] min-h-[120px] resize-none"
+                className="form-textarea"
                 placeholder="Parlez-nous de votre projet..."
               />
             </div>
 
-            <Button
-              type="submit" // 🚀 This will now submit the form to the 'action' URL
-              className="w-full bg-[#B31818] hover:bg-[#8B1212] text-white py-6 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 mt-6"
-            >
-              Réserver Une Consultation Gratuite
-            </Button>
+            <div ref={(el) => (formFieldsRef.current[3] = el)}>
+              <Button
+                type="submit"
+                className="inline-flex items-center justify-center gap-3 bg-red-600 hover:bg-red-700 text-white py-6 px-12 rounded-full text-sm font-semibold tracking-wider transition-all duration-500 shadow-lg hover:shadow-2xl hover:-translate-y-1 hover:scale-105 w-fit group"
+              >
+                ENVOYER LE MESSAGE
+                <svg 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 16 16" 
+                  fill="none"
+                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                >
+                  <path
+                    d="M1 15L15 1M15 1H1M15 1V15"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                </svg>
+              </Button>
+            </div>
           </form>
 
-          {/* Contact Info Section */}
-          <div className="space-y-8">
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <h3 className="text-2xl font-bold text-[#333333] mb-6">Contactez-Nous</h3>
+          {/* Contact Info */}
+          <div ref={contactInfoRef} className="flex flex-col gap-12">
+            <h3 className="text-3xl md:text-4xl font-light text-white tracking-[-0.02em]">
+              Informations de Contact
+            </h3>
 
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#007BFF]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Mail className="text-[#007BFF]" size={24} />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-[#333333] mb-1">Email</div>
-                    <a href="mailto:fanisnetwork@gmail.com" className="text-[#007BFF] hover:text-[#B31818] transition-colors">
-                      fanisnetwork@gmail.com
-                    </a>
-                  </div>
+            <div className="flex flex-col gap-10">
+              {/* Email */}
+              <div 
+                ref={(el) => (contactItemsRef.current[0] = el)}
+                className="flex items-start gap-6 transition-all duration-500 hover:translate-x-2 contact-item group"
+              >
+                <div className="contact-icon">
+                  <Mail size={22} strokeWidth={1.5} />
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#007BFF]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Phone className="text-[#007BFF]" size={24} />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-[#333333] mb-1">Téléphone</div>
-                    <a href="tel:+212666148606" className="text-[#007BFF] hover:text-[#B31818] transition-colors">
-                      +212 666 148 606
-                    </a>
-                  </div>
+                <div className="flex flex-col gap-2">
+                  <div className="text-sm text-zinc-500 font-light tracking-wide">Email</div>
+                  <a
+                    href="mailto:fanisnetwork@gmail.com"
+                    className="text-white text-lg hover:text-red-600 transition-colors duration-300 font-light tracking-[-0.01em]"
+                  >
+                    fanisnetwork@gmail.com
+                  </a>
                 </div>
+              </div>
 
-               
+              {/* Phone */}
+              <div 
+                ref={(el) => (contactItemsRef.current[1] = el)}
+                className="flex items-start gap-6 transition-all duration-500 hover:translate-x-2 contact-item group"
+              >
+                <div className="contact-icon">
+                  <Phone size={22} strokeWidth={1.5} />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="text-sm text-zinc-500 font-light tracking-wide">Téléphone</div>
+                  <a
+                    href="tel:+212666148606"
+                    className="text-white text-lg hover:text-red-600 transition-colors duration-300 font-light tracking-[-0.01em]"
+                  >
+                    +212 666 148 606
+                  </a>
+                </div>
+              </div>
+
+              {/* Address */}
+              <div 
+                ref={(el) => (contactItemsRef.current[2] = el)}
+                className="flex items-start gap-6 transition-all duration-500 hover:translate-x-2 contact-item group"
+              >
+                <div className="contact-icon">
+                  <MapPin size={22} strokeWidth={1.5} />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="text-sm text-zinc-500 font-light tracking-wide">Adresse</div>
+                  <span className="text-white text-lg leading-relaxed font-light tracking-[-0.01em]">
+                    75 Bd Moulay Youssef, Etage 5,
+                    <br />
+                    App N°22, Casablanca 20250
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-[#B31818] to-[#8B1212] p-8 rounded-2xl shadow-lg text-white">
-              <h3 className="text-2xl font-bold mb-4">Commencez Votre Voyage Digital</h3>
-              <p className="text-white/90 leading-relaxed">
-                Rejoignez plus de 40 clients satisfaits qui ont transformé leur présence digitale avec Fanis Network.
-                Créons ensemble quelque chose d'extraordinaire.
+            {/* Footer Stat */}
+            <div className="border-t border-zinc-800 pt-10 mt-6">
+              <p className="text-zinc-400 leading-relaxed text-base font-light tracking-[-0.01em]">
+                Rejoignez plus de{" "}
+                <span className="text-white font-normal">40 clients satisfaits</span>{" "}
+                qui ont transformé leur présence digitale avec Fanis Network.
               </p>
             </div>
           </div>

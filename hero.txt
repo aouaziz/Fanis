@@ -10,57 +10,17 @@ function HeroSection() {
   return (
     <>
       <section id="home" className="hero">
-        {/* Logo-inspired Search Element */}
-        <div className="logo-search-container">
+        {/* Logo Background Element */}
+        <div className="logo-background">
           <div className="logo-glow"></div>
-            <div className="logo-element">
-
-              {/* Left Chevron */}
-               <svg className="chevron chevron-left" viewBox="0 0 150 200" aria-hidden="true">
-                 <path d="M140 15 L10 100 L140 185" />
-               </svg>       
-              <div className="eye-container">
-                <svg
-                  className="eye-ring"
-                  viewBox="0 0 400 400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  {/* Outer white circle (thicker stroke) */}
-                  <circle
-                    cx="300"
-                    cy="100"
-                    r="10"
-                    stroke="#ffffff"
-                    strokeWidth="30"
-                    fill="none"
-                    opacity="0.9"
-                  />
-                </svg>
-                <svg
-                  className="eye-ring"
-                  viewBox="0 0 400 400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  {/* Outer white circle (thicker stroke) */}
-                  <circle
-                    cx="180"
-                    cy="200"
-                    r="10"
-                    stroke="#ffffff"
-                    strokeWidth="80"
-                    fill="none"
-                    opacity="0.9"
-                  />
-                </svg>
-                {/* Inner red glowing eye */}
-                <div className="eye"></div>
+          <div className="logo-element">
+            <div className="chevron-left">&#60;</div>
+            <div className="eye-container">
+              <div className="eye">
+                <div className="pupil"></div>
               </div>
-              {/* Right Chevron */}
-              <svg className="chevron chevron-right" viewBox="0 0 150 200" aria-hidden="true">
-                <path d="M10 15 L140 100 L10 185" />
-              </svg>
+            </div>
+            <div className="chevron-right">&#62;</div>
           </div>
         </div>
 
@@ -116,30 +76,31 @@ function HeroSection() {
           justify-content: center;
           position: relative;
           overflow: hidden;
+          background: #000;
         }
 
-        /* Logo Search Element - Centered */
-        .logo-search-container {
+        /* Logo Background - Centered and Behind Content */
+        .logo-background {
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 1400px;
-          height: 550px;
+          width: 900px;
+          height: 340px;
           z-index: 0;
           pointer-events: none;
         }
 
         .logo-glow {
           position: absolute;
-          inset: -100px;
+          inset: -80px;
           background: radial-gradient(
             ellipse,
             rgba(220, 38, 38, 0.2) 0%,
             rgba(220, 38, 38, 0.08) 40%,
             transparent 70%
           );
-          filter: blur(80px);
+          filter: blur(70px);
           animation: pulse 5s ease-in-out infinite;
         }
 
@@ -160,8 +121,8 @@ function HeroSection() {
           height: 100%;
           display: flex;
           align-items: center;
-          justify-content: center;
-          gap: -2rem;
+          justify-content: space-between;
+          gap: 0;
           animation: float 8s ease-in-out infinite;
           opacity: 0.15;
         }
@@ -175,20 +136,19 @@ function HeroSection() {
           }
         }
 
-        /* Chevrons en SVG */
-        .chevron {
-          width: clamp(12rem, 28vw, 36rem);
-          height: auto;
-          stroke: #ffffff;
-          stroke-width: 20;
-          fill: none;
-          stroke-linecap: round;
-          stroke-linejoin: round;
-          filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.25));
+        .chevron-left,
+        .chevron-right {
+          font-size: 20rem;
+          font-weight: 700;
+          color: #fff;
+          line-height: 1;
+          font-family: 'Courier New', monospace;
+          text-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
           animation: chevronPulse 4s ease-in-out infinite;
-          opacity: 0.6;
+          -webkit-text-stroke: 5px #ffffff;
+          letter-spacing: -0.1em;
+          transform: scaleX(1.8);
           flex-shrink: 0;
-          z-index: 2;
         }
 
         .chevron-left {
@@ -202,51 +162,29 @@ function HeroSection() {
         @keyframes chevronPulse {
           0%, 100% {
             opacity: 0.6;
-            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.25));
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
           }
           50% {
             opacity: 1;
-            filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.4));
+            text-shadow: 0 0 60px rgba(255, 255, 255, 0.4);
           }
         }
 
         .eye-container {
-          position: relative;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          z-index: 3;
-        }
-
-        /* White outer ring */
-        .eye-ring {
-          position: absolute;
-          top: -20px; /* moves the ring slightly above */
-          left: 0;
-          width: 380px;
-          height: 380px;
-          z-index: 4;
-          pointer-events: none;
-          animation: ringGlow 5s ease-in-out infinite;
-          filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
-        }
-
-        /* Animation for subtle glowing effect */
-        @keyframes ringGlow {
-          0%, 100% {
-            opacity: 0.8;
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
-          }
-          50% {
-            opacity: 1;
-            filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.5));
-          }
+          z-index: 2;
         }
 
         .eye {
-          width: 320px;
-          height: 320px;
+          width: 180px;
+          height: 180px;
           border-radius: 50%;
           background: #dc2626;
           position: relative;
@@ -254,9 +192,9 @@ function HeroSection() {
           align-items: center;
           justify-content: center;
           box-shadow: 
-            0 0 80px rgba(220, 38, 38, 0.6),
-            0 0 160px rgba(220, 38, 38, 0.4),
-            inset 0 0 50px rgba(0, 0, 0, 0.3);
+            0 0 50px rgba(220, 38, 38, 0.6),
+            0 0 100px rgba(220, 38, 38, 0.4),
+            inset 0 0 40px rgba(0, 0, 0, 0.3);
           animation: eyePulse 5s ease-in-out infinite;
           overflow: hidden;
         }
@@ -264,19 +202,30 @@ function HeroSection() {
         @keyframes eyePulse {
           0%, 100% {
             box-shadow: 
-              0 0 80px rgba(220, 38, 38, 0.6),
-              0 0 160px rgba(220, 38, 38, 0.4),
-              inset 0 0 50px rgba(0, 0, 0, 0.3);
+              0 0 50px rgba(220, 38, 38, 0.6),
+              0 0 100px rgba(220, 38, 38, 0.4),
+              inset 0 0 40px rgba(0, 0, 0, 0.3);
           }
           50% {
             box-shadow: 
-              0 0 100px rgba(220, 38, 38, 0.8),
-              0 0 200px rgba(220, 38, 38, 0.6),
-              inset 0 0 50px rgba(0, 0, 0, 0.3);
+              0 0 70px rgba(220, 38, 38, 0.8),
+              0 0 140px rgba(220, 38, 38, 0.6),
+              inset 0 0 40px rgba(0, 0, 0, 0.3);
           }
         }
 
-
+        .pupil {
+          width: 45px;
+          height: 45px;
+          background: #000;
+          border-radius: 50%;
+          position: absolute;
+          top: 25%;
+          right: 30%;
+          box-shadow: 
+            0 0 20px rgba(0, 0, 0, 0.8),
+            inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
 
         .hero-container {
           max-width: 1200px;
@@ -308,8 +257,8 @@ function HeroSection() {
         }
 
         .hero-content h1 {
-          font-size: clamp(3rem, 6vw, 4.5rem);
-          line-height: 1.2;
+          font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+          line-height: 1.15;
           margin-bottom: 1.5rem;
           font-weight: 400;
           color: #ffffff;
@@ -318,17 +267,16 @@ function HeroSection() {
 
         .hero-subtitle-line {
           display: block;
-          color: #ffffff;
-          font-weight: 300;
+          color: #a1a1aa;
         }
 
         .subtitle {
           color: #a1a1aa;
-          font-size: clamp(1rem, 1.3vw, 1.15rem);
-          line-height: 1.65;
+          font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+          line-height: 1.6;
           margin-bottom: 2.5rem;
           font-weight: 400;
-          max-width: 540px;
+          max-width: 520px;
         }
 
         .desktop-break {
@@ -370,7 +318,7 @@ function HeroSection() {
 
         .hero-description {
           flex: 1;
-          max-width: 440px;
+          max-width: 420px;
           color: #a1a1aa;
           font-size: clamp(0.9rem, 1.1vw, 1rem);
           line-height: 1.65;
@@ -390,7 +338,7 @@ function HeroSection() {
         }
 
         .tag {
-          padding: 0.6rem 1.4rem;
+          padding: 0.65rem 1.5rem;
           border: 1px solid #3f3f46;
           border-radius: 50px;
           font-size: 0.7rem;
@@ -399,8 +347,7 @@ function HeroSection() {
           backdrop-filter: blur(10px);
           transition: all 0.3s ease;
           font-weight: 500;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
         .tag:hover {
@@ -410,54 +357,32 @@ function HeroSection() {
           transform: translateY(-2px);
         }
 
-        @media (min-width: 1280px) {
-          .hero {
-            padding: 10rem 4rem 5rem;
-          }
-
-          .logo-search-container {
-            width: 1600px;
-            height: 650px;
-          }
-
-          .logo-element {
-            gap: -1rem;
-          }
-
-          .eye {
-            width: 800px;
-            height: 400px;
-          }
-
-          .eye-ring {
-            width: 440px;
-            height: 440px;
-            top: -20px;
-          }
-        }
-
+        /* Desktop Layout - 1024px+ */
         @media (min-width: 1024px) {
           .hero {
             padding: 8rem 3rem 4rem;
           }
 
-          .logo-search-container {
-            width: 1500px;
-            height: 600px;
+          .logo-background {
+            width: 1000px;
+            height: 380px;
           }
 
-          .logo-element {
-            gap: -1.5rem;
+          .chevron-left,
+          .chevron-right {
+            font-size: 21rem;
+            -webkit-text-stroke: 6px #ffffff;
+            transform: scaleX(1.9);
           }
 
           .eye {
-            width: 360px;
-            height: 360px;
+            width: 200px;
+            height: 200px;
           }
 
-          .eye-ring {
-            width: 420px;
-            height: 420px;
+          .pupil {
+            width: 45px;
+            height: 45px;
           }
 
           .desktop-break {
@@ -465,7 +390,41 @@ function HeroSection() {
           }
         }
 
-        @media (max-width: 1023px) {
+        /* Large Desktop - 1280px+ */
+        @media (min-width: 1280px) {
+          .hero {
+            padding: 10rem 4rem 5rem;
+          }
+
+          .logo-background {
+            width: 1100px;
+            height: 420px;
+          }
+
+          .chevron-left,
+          .chevron-right {
+            font-size: 22rem;
+            -webkit-text-stroke: 6px #ffffff;
+            transform: scaleX(2);
+          }
+
+          .eye {
+            width: 220px;
+            height: 220px;
+          }
+
+          .pupil {
+            width: 50px;
+            height: 50px;
+          }
+        }
+
+        /* Tablet - 768px to 1023px */
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .hero {
+            padding: 7rem 2.5rem 4rem;
+          }
+
           .hero-container {
             min-height: 60vh;
           }
@@ -480,27 +439,30 @@ function HeroSection() {
             max-width: 100%;
           }
 
-          .logo-search-container {
-            width: 1200px;
-            height: 480px;
+          .logo-background {
+            width: 800px;
+            height: 300px;
           }
 
-          .logo-element {
-            gap: -2rem;
+          .chevron-left,
+          .chevron-right {
+            font-size: 12rem;
+            -webkit-text-stroke: 3px #ffffff;
+            transform: scaleX(1.5);
           }
 
           .eye {
-            width: 280px;
-            height: 280px;
+            width: 150px;
+            height: 150px;
           }
 
-          .eye-ring {
-            width: 320px;
-            height: 320px;
-            top: -15px;
+          .pupil {
+            width: 35px;
+            height: 35px;
           }
         }
 
+        /* Mobile - below 768px */
         @media (max-width: 767px) {
           .hero {
             padding: 7rem 1.5rem 4rem;
@@ -519,39 +481,69 @@ function HeroSection() {
             margin-bottom: 2rem;
           }
 
+          .hero-bottom {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2rem;
+          }
+
+          .hero-description {
+            max-width: 100%;
+            font-size: 0.95rem;
+          }
+
           .hero-tags {
             width: 100%;
           }
 
-          .logo-search-container {
-            width: 100%;
-            max-width: 700px;
-            height: 280px;
+          .tag {
+            font-size: 0.7rem;
+            padding: 0.55rem 1.25rem;
           }
 
-          .chevron {
-            stroke-width: 14;
+          .logo-background {
+            width: 600px;
+            height: 240px;
           }
 
           .logo-element {
-            gap: -2.5rem;
+            gap: 3rem;
+          }
+
+          .chevron-left,
+          .chevron-right {
+            font-size: 9rem;
+            -webkit-text-stroke: 2px #ffffff;
+            transform: scaleX(1.4);
           }
 
           .eye {
-            width: 160px;
-            height: 160px;
+            width: 120px;
+            height: 120px;
           }
 
-          .eye-ring {
-            width: 200px;
-            height: 200px;
-            top: -10px;
+          .pupil {
+            width: 28px;
+            height: 28px;
           }
         }
 
+        /* Extra small mobile - below 480px */
         @media (max-width: 480px) {
           .hero {
             padding: 6rem 1.25rem 3rem;
+          }
+
+          .hero-container {
+            gap: 2.5rem;
+          }
+
+          .hero-content h1 {
+            margin-bottom: 1.5rem;
+          }
+
+          .subtitle {
+            margin-bottom: 2rem;
           }
 
           .cta-btn {
@@ -559,30 +551,39 @@ function HeroSection() {
             font-size: 0.75rem;
           }
 
+          .hero-bottom {
+            gap: 1.5rem;
+          }
+
           .tag {
             font-size: 0.65rem;
             padding: 0.5rem 1rem;
           }
 
-          .logo-search-container {
-            width: 100%;
-            max-width: 540px;
-            height: 220px;
+          .logo-background {
+            width: 480px;
+            height: 200px;
           }
 
           .logo-element {
-            gap: -3rem;
+            gap: 2rem;
+          }
+
+          .chevron-left,
+          .chevron-right {
+            font-size: 7rem;
+            -webkit-text-stroke: 1.5px #ffffff;
+            transform: scaleX(1.3);
           }
 
           .eye {
-            width: 130px;
-            height: 130px;
+            width: 90px;
+            height: 90px;
           }
 
-          .eye-ring {
-            width: 170px;
-            height: 170px;
-            top: -8px;
+          .pupil {
+            width: 22px;
+            height: 22px;
           }
         }
       `}</style>

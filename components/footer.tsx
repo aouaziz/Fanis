@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import {
   Mail,
   Phone,
@@ -43,122 +43,354 @@ export default function Footer() {
     loadGSAP();
   }, []);
 
+  const scrollToSection = useCallback((id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
-    <footer ref={footerRef} className="bg-[#333333] text-white py-16 px-4">
-      <div className="container mx-auto max-w-6xl">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div className="footer-col">
-            <h3 className="text-2xl font-bold text-[#B31818] mb-4">
-              FANIS NETWORK
-            </h3>
-            <p className="text-white leading-relaxed mb-6">
-              Votre partenaire digital pour transformer vos idées en succès.
-            </p>
-            <div className="flex gap-4">
-              <a
-                href="https://instagram.com/fanisnetwork"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 hover:bg-[#B31818] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                aria-label="Instagram"
-              >
-                <Instagram size={20} />
-              </a>
-              <a
-                href="https://linkedin.com/company/fanisnetwork"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 hover:bg-[#007BFF] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href="https://facebook.com/fanisnetwork"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 hover:bg-[#007BFF] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                aria-label="Facebook"
-              >
-                <Facebook size={20} />
-              </a>
-              <a
-                href="https://youtube.com/@fanisnetwork"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 hover:bg-[#B31818] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                aria-label="YouTube"
-              >
-                <Youtube size={20} />
-              </a>
+    <>
+      <footer ref={footerRef} className="footer">
+        <div className="footer-container">
+          <div className="footer-grid">
+            <div className="footer-col footer-brand">
+              <h3 className="brand-title">FANIS NETWORK</h3>
+              <p className="brand-description">
+                Votre partenaire digital pour transformer vos idées en succès.
+              </p>
+              <div className="social-links">
+                <a
+                  href="https://instagram.com/fanisnetwork"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={20} />
+                </a>
+                <a
+                  href="https://linkedin.com/company/fanisnetwork"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={20} />
+                </a>
+                <a
+                  href="https://facebook.com/fanisnetwork"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon"
+                  aria-label="Facebook"
+                >
+                  <Facebook size={20} />
+                </a>
+                <a
+                  href="https://youtube.com/@fanisnetwork"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon"
+                  aria-label="YouTube"
+                >
+                  <Youtube size={20} />
+                </a>
+              </div>
+            </div>
+
+            <div className="footer-col">
+              <h4 className="footer-heading">Liens Rapides</h4>
+              <ul className="footer-links">
+                <li>
+                  <a
+                    href="#services"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection("services");
+                    }}
+                  >
+                    Services
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#expertise"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection("expertise");
+                    }}
+                  >
+                    Expertise
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#projects"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection("projects");
+                    }}
+                  >
+                    Réalisations
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#contact"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection("contact");
+                    }}
+                  >
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div className="footer-col footer-contact">
+              <h4 className="footer-heading">Contact</h4>
+              <ul className="contact-info">
+                <li>
+                  <Mail size={20} className="contact-icon" />
+                  <a href="mailto:fanisnetwork@gmail.com">
+                    fanisnetwork@gmail.com
+                  </a>
+                </li>
+                <li>
+                  <Phone size={20} className="contact-icon" />
+                  <a href="tel:+212666148606">+212 666 148 606</a>
+                </li>
+                <li>
+                  <MapPin size={20} className="contact-icon" />
+                  <span>
+                    75 Bd Moulay Youssef, Etage 5, App N°22, Casablanca 20250
+                  </span>
+                </li>
+              </ul>
             </div>
           </div>
 
-          <div className="footer-col">
-            <h4 className="text-lg font-bold mb-4">Liens Rapides</h4>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="#services"
-                  className="text-white/90 hover:text-[#B31818] transition-colors"
-                >
-                  Services
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#expertise"
-                  className="text-white/90 hover:text-[#B31818] transition-colors"
-                >
-                  Expertise
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#realizations"
-                  className="text-white/90 hover:text-[#B31818] transition-colors"
-                >
-                  Réalisations
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  className="text-white/90 hover:text-[#B31818] transition-colors"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="footer-col md:col-span-2">
-            <h4 className="text-lg font-bold mb-4">Contact</h4>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-3 text-white/90 hover:text-[#B31818] transition-colors">
-                <Mail size={20} className="flex-shrink-0" />
-                <a href="mailto:fanisnetwork@gmail.com">
-                  fanisnetwork@gmail.com
-                </a>
-              </li>
-              <li className="flex items-center gap-3 text-white/90 hover:text-[#B31818] transition-colors">
-                <Phone size={20} className="flex-shrink-0" />
-                <a href="tel:+212666148606">+212 666 148 606</a>
-              </li>
-              <li className="flex items-start gap-3 text-white/90">
-                <MapPin size={20} className="flex-shrink-0 mt-1" />
-                <span>
-                  75 Bd Moulay Youssef, Etage 5, App N°22, Casablanca 20250
-                </span>
-              </li>
-            </ul>
+          <div className="footer-bottom">
+            <p>&copy; 2025 FANIS NETWORK. Tous droits réservés.</p>
           </div>
         </div>
+      </footer>
 
-        <div className="border-t border-gray-700 pt-8 text-center text-white">
-          <p>&copy; 2025 FANIS NETWORK. Tous droits réservés.</p>
-        </div>
-      </div>
-    </footer>
+      <style jsx>{`
+        .footer {
+          background: #0a0a0a;
+          padding: 5rem 2rem 3rem;
+          position: relative;
+          overflow: hidden;
+          border-top: 1px solid #1a1a1a;
+        }
+
+        .footer-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          width: 100%;
+        }
+
+        .footer-grid {
+          display: grid;
+          grid-template-columns: 2fr 1fr 2fr;
+          gap: 4rem;
+          margin-bottom: 3rem;
+        }
+
+        .footer-col {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+
+        .footer-brand {
+          padding-right: 2rem;
+        }
+
+        .brand-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #dc2626;
+          margin-bottom: 1rem;
+          letter-spacing: 0.05em;
+        }
+
+        .brand-description {
+          color: #a1a1aa;
+          font-size: 0.95rem;
+          line-height: 1.6;
+          margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+          display: flex;
+          gap: 0.75rem;
+        }
+
+        .social-icon {
+          width: 44px;
+          height: 44px;
+          border: 1px solid #3f3f46;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #a1a1aa;
+          transition: all 0.3s ease;
+          background: rgba(26, 26, 26, 0.8);
+          backdrop-filter: blur(10px);
+        }
+
+        .social-icon:hover {
+          background: #dc2626;
+          color: #fff;
+          border-color: #dc2626;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        .footer-heading {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #ffffff;
+          margin-bottom: 1.5rem;
+          letter-spacing: -0.01em;
+        }
+
+        .footer-links {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .footer-links a {
+          color: #a1a1aa;
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+          display: inline-block;
+        }
+
+        .footer-links a:hover {
+          color: #dc2626;
+          transform: translateX(4px);
+        }
+
+        .footer-contact {
+          grid-column: span 1;
+        }
+
+        .contact-info {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .contact-info li {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          color: #a1a1aa;
+          font-size: 0.95rem;
+          line-height: 1.5;
+        }
+
+        .contact-icon {
+          flex-shrink: 0;
+          margin-top: 0.15rem;
+          color: #71717a;
+        }
+
+        .contact-info a {
+          color: #a1a1aa;
+          transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+          color: #dc2626;
+        }
+
+        .footer-bottom {
+          padding-top: 2.5rem;
+          border-top: 1px solid #1a1a1a;
+          text-align: center;
+        }
+
+        .footer-bottom p {
+          color: #71717a;
+          font-size: 0.9rem;
+        }
+
+        @media (max-width: 1023px) {
+          .footer {
+            padding: 4rem 1.5rem 2.5rem;
+          }
+
+          .footer-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+          }
+
+          .footer-brand {
+            grid-column: span 2;
+            padding-right: 0;
+          }
+
+          .footer-contact {
+            grid-column: span 2;
+          }
+        }
+
+        @media (max-width: 767px) {
+          .footer {
+            padding: 3.5rem 1.25rem 2rem;
+          }
+
+          .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+          }
+
+          .footer-brand {
+            grid-column: span 1;
+            text-align: center;
+          }
+
+          .brand-title {
+            font-size: 1.35rem;
+          }
+
+          .brand-description {
+            font-size: 0.9rem;
+          }
+
+          .social-links {
+            justify-content: center;
+          }
+
+          .footer-col {
+            text-align: left;
+          }
+
+          .footer-contact {
+            grid-column: span 1;
+          }
+
+          .contact-info li {
+            font-size: 0.9rem;
+          }
+
+          .footer-bottom {
+            padding-top: 2rem;
+          }
+
+          .footer-bottom p {
+            font-size: 0.85rem;
+          }
+        }
+      `}</style>
+    </>
   );
 }

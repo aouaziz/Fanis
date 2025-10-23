@@ -4,39 +4,39 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #eeeeee; /* Ash Gray */
-  --foreground: #333333; /* Dark Slate */
-  --card: #ffffff;
-  --card-foreground: #333333;
-  --popover: #ffffff;
-  --popover-foreground: #333333;
-  --primary: #b31818; /* Fanis Red */
+  --background: #0a0a0a; /* Pure Black */
+  --foreground: #ffffff; /* White */
+  --card: #1a1a1a; /* Dark Grey */
+  --card-foreground: #ffffff;
+  --popover: #1a1a1a;
+  --popover-foreground: #ffffff;
+  --primary: #dc2626; /* Bright Red */
   --primary-foreground: #ffffff;
-  --secondary: #007bff; /* Steel Blue */
+  --secondary: #3f3f46; /* Zinc Grey */
   --secondary-foreground: #ffffff;
-  --muted: #d0d0d0;
-  --muted-foreground: #666666;
-  --accent: #007bff;
+  --muted: #27272a; /* Dark Muted */
+  --muted-foreground: #a1a1aa; /* Light Grey */
+  --accent: #dc2626;
   --accent-foreground: #ffffff;
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: #cccccc;
-  --input: #dddddd;
-  --ring: #b31818;
+  --border: #3f3f46;
+  --input: #27272a;
+  --ring: #dc2626;
   --radius: 0.75rem;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: #ffffff;
-  --sidebar-foreground: #333333;
-  --sidebar-primary: #b31818;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #dc2626;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #007bff;
+  --sidebar-accent: #dc2626;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #cccccc;
-  --sidebar-ring: #b31818;
+  --sidebar-border: #3f3f46;
+  --sidebar-ring: #dc2626;
 }
 
 .dark {
@@ -117,9 +117,16 @@
 
 @layer base {
   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     @apply border-border outline-ring/50;
   }
   body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #0a0a0a;
+    color: #ffffff;
+    overflow-x: hidden;
     @apply bg-background text-foreground;
   }
 }
@@ -155,3 +162,137 @@ html {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
+/* Location Section */
+.location-section {
+  min-height: 100vh;
+  background: #0a0a0a;
+  font-feature-settings: 'ss01' on, 'ss02' on, 'cv01' on, 'cv03' on;
+}
+
+.location-line {
+  width: 80px;
+  height: 3px;
+  background: #dc2626;
+  margin: 2rem auto 0;
+  transform-origin: center;
+}
+
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+  border: 1px solid #1a1a1a;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.map-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0.1) 0%,
+    rgba(10, 10, 10, 0.3) 100%
+  );
+}
+
+.location-map {
+  width: 100%;
+  height: 100%;
+  filter: grayscale(20%) brightness(0.9);
+  transition: filter 0.3s ease;
+}
+
+.map-wrapper:hover .location-map {
+  filter: grayscale(0%) brightness(1);
+}
+
+@media (min-width: 1024px) {
+  .map-wrapper {
+    height: 650px;
+  }
+}
+
+@media (max-width: 767px) {
+  .map-wrapper {
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-wrapper {
+    height: 350px;
+  }
+}
+
+/* Contact Section */
+.contact-section {
+  min-height: 100vh;
+  background: #0a0a0a;
+  font-feature-settings: 'ss01' on, 'ss02' on, 'cv01' on, 'cv03' on;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid #3f3f46;
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 1rem 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: #dc2626;
+  outline: none;
+  box-shadow: 0 0 0 1px #dc2626;
+}
+
+.form-textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.contact-icon {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #3f3f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #dc2626;
+  transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-icon {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+}
+
+@media (max-width: 767px) {
+  .contact-icon {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .form-input,
+  .form-textarea {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+

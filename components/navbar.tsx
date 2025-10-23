@@ -1,242 +1,588 @@
+
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import gsap from "gsap";
+import { useCallback, useState, useEffect } from "react";
+import Image from "next/image";
 
-export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
-  const navRef = useRef<HTMLElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
+function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      const sections = ["home", "services",  "about" ,"portfolio", "contact"];
-      let currentActiveSection = "";
-
-      // Add a default for the very top of the page
-      if (window.scrollY < 200) {
-        setActiveSection("home");
-        return;
-      }
-
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          const offset = 150;
-         if (rect.top <= offset && rect.bottom > offset) {
-            currentActiveSection = section;
-            break;
-          }
-        }
-      }
-      if (currentActiveSection) {
-        setActiveSection(currentActiveSection);
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (bgRef.current) {
-      gsap.to(bgRef.current, {
-        opacity: isScrolled ? 1 : 0,
-        duration: 0.3,
-        ease: "power2.out",
-      });
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
     }
-  }, [isScrolled]);
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
-  useEffect(() => {
-    // Mobile menu animation is handled via Tailwind classes to avoid conflicting transforms
-  }, [isMobileMenuOpen]);
-
-  const scrollToSection = (id: string) => {
+  const scrollToSection = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const navLinks = [
-    { label: "Accueil", href: "#home", keywords: "agence digitale Casablanca" },
-    {
-      label: "Services",
-      href: "#services",
-      keywords: "services marketing digital",
-    },
-    // {
-    //   label: "Portfolio",
-    //   href: "#portfolio",
-    //   keywords: "réalisations agence web",
-    // },
-    { label: "À Propos", href: "#about", keywords: "équipe agence digitale" },
-    {
-      label: "Contact",
-      href: "#contact",
-      keywords: "contact agence Casablanca",
-    },
-  ];
-
-  // Close mobile menu on Escape
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsMobileMenuOpen(false);
-    };
-    if (isMobileMenuOpen) window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [isMobileMenuOpen]);
+    setMenuOpen(false);
+  }, []);
 
   return (
-    <nav ref={navRef} className="fixed top-0 left-0 right-0 z-50">
-      {/* Background blur */}
-      <div
-        ref={bgRef}
-        className="absolute inset-0 bg-white/80 backdrop-blur-lg shadow-sm opacity-0 transition-all duration-300"
-      />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <div
-            onClick={() => scrollToSection("top")}
-            className="cursor-pointer select-none"
+    <>
+      <nav className="navbar">
+        <div className="logo" onClick={() => scrollToSection("home")}>
+          <Image 
+            src="/logo.png" 
+            alt="Fanis Network" 
+            width={120} 
+            height={40}
+            priority
+            style={{ cursor: 'pointer' }}
+          />
+        </div>
+        <div className="nav-center">
+          <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection("home"); }}>
+            Accueil
+          </a>
+          <a href="#services" onClick={(e) => { e.preventDefault(); scrollToSection("services"); }}>
+            Services
+          </a>
+          <a href="#projects" onClick={(e) => { e.preventDefault(); scrollToSection("projects"); }}>
+            Réalisations
+          </a>
+        </div>
+        <div className="nav-right">
+          <button 
+            className="consultation-btn" 
+            onClick={() => scrollToSection("contact")}
           >
-            <img
-              src="/logo.png"
-              alt="Fanis Network Logo"
-              className="h-12 w-auto hover:scale-105 transition-all duration-300"
-            />
-          </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center justify-center flex-1">
-            <div className="flex items-center gap-14">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(link.href.replace("#", ""));
-                  }}
-                  className={`relative text-[15px] font-medium tracking-wide transition-all duration-300 group ${
-                    activeSection === link.href.replace("#", "")
-                      ? "text-[#B31818]"
-                      : "text-gray-700 hover:text-[#B31818]"
-                  }`}
-                >
-                  {link.label}
-                  <span
-                    className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-gradient-to-r from-[#7A0F0F]/20 via-[#B31818] to-[#7A0F0F]/20 transition-all duration-300 ${
-                      activeSection === link.href.replace("#", "")
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </a>
-              ))}
-            </div>
-          </div>
-          <div className="hidden md:flex items-center">
-            <Button
-              onClick={() => scrollToSection("contact")}
-              className="relative overflow-hidden bg-[#B31818] text-white rounded-full px-8 py-5 font-medium group hover:shadow-[0_0_20px_rgba(179,24,24,0.3)] transition-all duration-500 flex items-center gap-2"
-            >
-              Consultation Gratuite
-              <ArrowRight
-                size={16}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Button>
-          </div>
-
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setIsMobileMenuOpen((p) => !p)}
-            aria-expanded={isMobileMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            className="md:hidden flex flex-col justify-center items-center w-10 h-10 relative"
-          >
-            <span
-              className={`block w-6 h-0.5 bg-[#B31818] transition-transform duration-300 ${
-                isMobileMenuOpen
-                  ? "rotate-45 translate-y-1.5"
-                  : "-translate-y-1.5"
-              }`}
-            />
-            <span
-              className={`block w-6 h-0.5 bg-[#B31818] mt-1 transition-all duration-200 ${
-                isMobileMenuOpen
-                  ? "opacity-0 scale-x-0"
-                  : "opacity-100 scale-x-100"
-              }`}
-            />
-            <span
-              className={`block w-6 h-0.5 bg-[#B31818] mt-1 transition-transform duration-300 ${
-                isMobileMenuOpen
-                  ? "-rotate-45 -translate-y-1.5"
-                  : "translate-y-1.5"
-              }`}
-            />
+            <span className="btn-text">CONSULTATION GRATUITE</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M1 15L15 1M15 1H1M15 1V15" stroke="currentColor" strokeWidth="2"/>
+            </svg>
           </button>
+          <button 
+            className={`menu-btn ${menuOpen ? 'active' : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+
+      {/* Full Screen Menu */}
+      <div className={`full-menu ${menuOpen ? 'active' : ''}`}>
+        <div className="menu-content">
+          <div className="menu-left">
+            <div className="menu-tag">Transformons votre vision ensemble!</div>
+            <h2 className="menu-title">
+              Vous avez un projet
+              <br />
+              ambitieux? Parlons-en.
+            </h2>
+            <a
+              href="#contact"
+              className="menu-cta"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("contact");
+              }}
+            >
+              RÉSERVER UNE CONSULTATION
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M1 15L15 1M15 1H1M15 1V15" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+            </a>
+          </div>
+          <div className="menu-right">
+            <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection("home"); }}>
+              Accueil
+            </a>
+            <a href="#services" onClick={(e) => { e.preventDefault(); scrollToSection("services"); }}>
+              Services
+            </a>
+            <a href="#projects" onClick={(e) => { e.preventDefault(); scrollToSection("projects"); }}>
+              Réalisations
+            </a>
+            <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection("contact"); }}>
+              Contact
+            </a>
+            <button 
+              className="menu-mobile-cta" 
+              onClick={() => scrollToSection("contact")}
+            >
+              CONSULTATION GRATUITE
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M1 15L15 1M15 1H1M15 1V15" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div className="menu-footer">
+          <a 
+            href="https://instagram.com/fanisnetwork" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-icon" 
+            aria-label="Instagram"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a 
+            href="https://linkedin.com/company/fanisnetwork" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-icon" 
+            aria-label="LinkedIn"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
+          <a 
+            href="https://facebook.com/fanisnetwork" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-icon" 
+            aria-label="Facebook"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+          <a 
+            href="https://youtube.com/@fanisnetwork" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-icon" 
+            aria-label="YouTube"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+              <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+            </svg>
+          </a>
         </div>
       </div>
 
-      {/* Mobile Menu + Backdrop */}
-      {/* Backdrop */}
-      <div
-        className={`md:hidden fixed inset-0 bg-black/40 transition-opacity duration-300 ${
-          isMobileMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setIsMobileMenuOpen(false)}
-        aria-hidden={!isMobileMenuOpen}
-      />
+      <style jsx>{`
+        .navbar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 1000;
+          padding: 1.5rem 3rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: rgba(10, 10, 10, 0.9);
+          backdrop-filter: blur(10px);
+          border-bottom: 1px solid #1a1a1a;
+        }
 
-      <div
-        id="mobile-menu"
-        ref={mobileMenuRef}
-        role="dialog"
-        aria-modal="true"
-        className={`md:hidden fixed top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-lg bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100 py-6 flex flex-col items-center gap-4 transform-gpu transition-all duration-300 ${
-          isMobileMenuOpen
-            ? "translate-y-0 opacity-100 pointer-events-auto scale-100"
-            : "-translate-y-6 opacity-0 pointer-events-none scale-95"
-        }`}
-      >
-        {navLinks.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            onClick={() => {
-              scrollToSection(link.href.replace("#", ""));
-              setIsMobileMenuOpen(false);
-            }}
-            className={`text-lg font-medium transition-all duration-300 ${
-              activeSection === link.href.replace("#", "")
-                ? "text-[#B31818]"
-                : "text-gray-700 hover:text-[#B31818]"
-            }`}
-          >
-            {link.label}
-          </a>
-        ))}
-        <Button
-          onClick={() => {
-            scrollToSection("contact");
-            setIsMobileMenuOpen(false);
-          }}
-          className="w-4/5 bg-gradient-to-r from-[#B31818] to-[#8B0F0F] text-white py-5 rounded-full font-medium shadow-md hover:shadow-lg transition-all duration-300"
-        >
-        Consultation Gratuite </Button>
-      </div>
-    </nav>
+        .logo {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          transition: opacity 0.3s ease;
+        }
+
+        .logo:hover {
+          opacity: 0.8;
+        }
+
+        .nav-center {
+          display: none;
+          gap: 2.5rem;
+        }
+
+        .nav-center a {
+          color: #a1a1aa;
+          font-size: 0.9rem;
+          transition: color 0.3s;
+        }
+
+        .nav-center a:hover {
+          color: #ffffff;
+        }
+
+        .nav-right {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+        }
+
+        .menu-mobile-cta {
+          display: none;
+        }
+
+        .consultation-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          background: #dc2626;
+          color: #fff;
+          border: none;
+          padding: 0.75rem;
+          border-radius: 50%;
+          width: 44px;
+          height: 44px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+        }
+
+        .consultation-btn .btn-text {
+          display: none;
+        }
+
+        .consultation-btn:hover {
+          background: #b91c1c;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .menu-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          width: 32px;
+          height: 24px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 0;
+          position: relative;
+          z-index: 1001;
+        }
+
+        .menu-btn span {
+          display: block;
+          width: 100%;
+          height: 2px;
+          background: #ffffff;
+          transition: all 0.3s ease;
+        }
+
+        .menu-btn.active span:nth-child(1) {
+          transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .menu-btn.active span:nth-child(2) {
+          opacity: 0;
+        }
+
+        .menu-btn.active span:nth-child(3) {
+          transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Full Screen Menu */
+        .full-menu {
+          position: fixed;
+          inset: 0;
+          background: #0a0a0a;
+          z-index: 999;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.3s ease, visibility 0.3s ease;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding: 8rem 3rem 4rem;
+        }
+
+        .full-menu.active {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        .menu-content {
+          display: flex;
+          gap: 6rem;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          max-width: 1200px;
+        }
+
+        .menu-left {
+          flex: 1;
+        }
+
+        .menu-tag {
+          color: #dc2626;
+          font-size: 0.9rem;
+          margin-bottom: 2rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .menu-tag::before {
+          content: "";
+          width: 8px;
+          height: 8px;
+          background: #dc2626;
+          border-radius: 50%;
+        }
+
+        .menu-title {
+          font-size: clamp(2rem, 4vw, 3rem);
+          line-height: 1.2;
+          margin-bottom: 2rem;
+          font-weight: 400;
+          color: #ffffff;
+        }
+
+        .menu-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: #dc2626;
+          color: #fff;
+          padding: 1rem 2rem;
+          border-radius: 50px;
+          text-decoration: none;
+          font-size: 0.85rem;
+          font-weight: 500;
+          letter-spacing: 0.05em;
+          transition: all 0.3s ease;
+        }
+
+        .menu-cta:hover {
+          transform: translateY(-2px);
+          background: #b91c1c;
+        }
+
+        .menu-right {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          align-items: flex-start;
+        }
+
+        .menu-right a {
+          font-size: clamp(2rem, 4vw, 3.5rem);
+          color: #71717a;
+          text-decoration: none;
+          transition: color 0.3s;
+          font-weight: 300;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .menu-right a::before {
+          content: "";
+          width: 10px;
+          height: 10px;
+          background: #dc2626;
+          border-radius: 50%;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+
+        .menu-right a:hover {
+          color: #ffffff;
+        }
+
+        .menu-right a:hover::before {
+          opacity: 1;
+        }
+
+        .menu-footer {
+          position: absolute;
+          bottom: 4rem;
+          display: flex;
+          gap: 1rem;
+        }
+
+        .social-icon {
+          width: 44px;
+          height: 44px;
+          border: 1px solid #3f3f46;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #a1a1aa;
+          transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+          background: #dc2626;
+          color: #fff;
+          border-color: #dc2626;
+        }
+
+        @media (min-width: 1024px) {
+          .nav-center {
+            display: flex;
+          }
+
+          .consultation-btn {
+            width: auto;
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+          }
+
+          .consultation-btn .btn-text {
+            display: inline;
+          }
+
+          .menu-content {
+            max-width: 1400px;
+            margin: 0 auto;
+          }
+        }
+
+        @media (max-width: 1023px) {
+          .navbar {
+            padding: 1.25rem 2rem;
+          }
+
+          .menu-content {
+            flex-direction: column;
+            gap: 3rem;
+            padding: 0 2rem;
+          }
+
+          .menu-left {
+            display: none;
+          }
+
+          .menu-right {
+            align-items: center;
+            gap: 2rem;
+          }
+
+          .menu-right a::before {
+            display: none;
+          }
+
+          .menu-mobile-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #dc2626;
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+            margin-top: 1rem;
+          }
+
+          .menu-mobile-cta:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+          }
+
+          .menu-footer {
+            display: none;
+          }
+        }
+
+        @media (max-width: 767px) {
+          .navbar {
+            padding: 1rem 1.5rem;
+          }
+
+          .nav-right {
+            gap: 1rem;
+          }
+
+          .menu-btn {
+            width: 28px;
+            height: 20px;
+          }
+
+          .consultation-btn {
+            display: none;
+          }
+
+          .full-menu {
+            padding: 5rem 1.5rem 3rem;
+          }
+
+          .menu-content {
+            gap: 3rem;
+          }
+
+          .menu-tag {
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+          }
+
+          .menu-footer {
+            bottom: 2.5rem;
+          }
+
+          .social-icon {
+            width: 40px;
+            height: 40px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .navbar {
+            padding: 0.85rem 1rem;
+          }
+
+          .menu-btn {
+            width: 26px;
+            height: 18px;
+          }
+
+          .menu-mobile-cta {
+            font-size: 0.8rem;
+            padding: 0.9rem 1.75rem;
+          }
+
+          .full-menu {
+            padding: 4.5rem 1rem 2.5rem;
+          }
+
+          .menu-tag::before {
+            width: 6px;
+            height: 6px;
+          }
+
+          .menu-footer {
+            bottom: 2rem;
+          }
+
+          .social-icon {
+            width: 36px;
+            height: 36px;
+          }
+
+          .social-icon svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+      `}</style>
+    </>
   );
 }
+export default Navbar;

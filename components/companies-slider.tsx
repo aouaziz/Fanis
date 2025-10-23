@@ -5,20 +5,15 @@ import gsap from "gsap";
 
 export default function CompaniesSlider() {
   const sliderRef = useRef<HTMLDivElement>(null);
-  // Removed containerRef as it was only used for hover interaction
-  // const containerRef = useRef<HTMLDivElement>(null); 
 
   useEffect(() => {
-    if (!sliderRef.current) return; // Removed check for containerRef
+    if (!sliderRef.current) return;
 
     const slider = sliderRef.current;
-    // const container = containerRef.current; // Removed container variable
 
-    // Clone content multiple times for seamless loop
     const content = slider.innerHTML;
     slider.innerHTML = content + content + content;
 
-    // Calculate width
     const slides = slider.children;
     let totalWidth = 0;
     for (let i = 0; i < slides.length / 3; i++) {
@@ -41,73 +36,228 @@ export default function CompaniesSlider() {
     { name: "APPA", logo: "/companies/APPA.png" },
     { name: "Bourse de Casablanca", logo: "/companies/BourseDeCasablanca.png" },
     { name: "Electroplanet", logo: "/companies/Electroplanet.png" },
-    { name: "English SoftSkills", logo: "companies/EnglishSoftSkills.png" },
-    { name: "INAMS", logo: "companies/INAMS.png" },
-    { name: "LinkedIn", logo: "companies/LinkedIn.png" },
-    { name: "Myconos", logo: "companies/MYCONOS.png" },
-    { name: "Marjane", logo: "companies/Marjane-logo.png" },
-    { name: "Shell", logo: "companies/Shell.png" },
-    { name: "TotalEnergies", logo: "companies/TotalEnergies.png" },
-    { name: "ODEC", logo: "companies/ODEC.png" },
+    { name: "English SoftSkills", logo: "/companies/EnglishSoftSkills.png" },
+    { name: "INAMS", logo: "/companies/INAMS.png" },
+    { name: "LinkedIn", logo: "/companies/LinkedIn.png" },
+    { name: "Myconos", logo: "/companies/MYCONOS.png" },
+    { name: "Marjane", logo: "/companies/Marjane-logo.png" },
+    { name: "Shell", logo: "/companies/Shell.png" },
+    { name: "TotalEnergies", logo: "/companies/TotalEnergies.png" },
+    { name: "ODEC", logo: "/companies/ODEC.png" },
   ];
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-16">
-      <div className="w-full max-w-6xl mx-auto px-6">
-        {/* Header Section */}
-        <div className="text-center mb-10 space-y-2">
-          <div className="inline-block">
-            <span className="text-xs font-semibold text-indigo-600 tracking-wider uppercase bg-indigo-50 px-3 py-1.5 rounded-full">
+    <>
+      <div className="companies-slider-section">
+        <div className="companies-container">
+          <div className="companies-header">
+            <div className="companies-tag">
+              <span className="tag-dot"></span>
               Nos Partenaires
-            </span>
+            </div>
+            <h2 className="companies-title">Ils nous font confiance</h2>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
-            Ils nous font confiance
-          </h2>
-        </div>
 
-        {/* Slider Container */}
-        <div className="relative">
-          {/* Gradient Overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-indigo-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
+          <div className="slider-wrapper">
+            <div className="slider-gradient slider-gradient-left"></div>
+            <div className="slider-gradient slider-gradient-right"></div>
 
-          <div
-            // Removed ref={containerRef}
-            className="relative overflow-hidden py-4 cursor-default" // Changed cursor to default
-            style={{ height: "100px" }}
-          >
-            <div
-              ref={sliderRef}
-              className="flex items-center gap-6 absolute left-0"
-            >
-              {companies.map((company, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 group"
-                  style={{ width: "180px", height: "80px" }}
-                >
-                  <div className="relative h-full w-full">
-                    {/* Card Background - Simplified hover effects */}
-                    <div className="absolute inset-0 bg-white rounded-2xl shadow-lg shadow-gray-200/50 border border-gray-100 transition-all duration-500"></div>
-                    
-                    {/* Shine Effect - Removed due to non-interaction requirement */}
-
-                    {/* Logo - Removed grayscale and hover effects */}
-                    <div className="relative h-full w-full flex items-center justify-center p-4">
+            <div className="slider-container">
+              <div ref={sliderRef} className="slider-track">
+                {companies.map((company, index) => (
+                  <div key={index} className="company-card">
+                    <div className="card-content">
                       <img
                         src={company.logo}
                         alt={company.name}
-                        className="max-w-full max-h-full object-contain opacity-70 transition-opacity duration-500" // Kept default opacity for visual effect
+                        className="company-logo"
                       />
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <style jsx>{`
+        .companies-slider-section {
+          background: #0a0a0a;
+          padding: 6rem 2rem;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .companies-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          width: 100%;
+        }
+
+        .companies-header {
+          text-align: center;
+          margin-bottom: 4rem;
+        }
+
+        .companies-tag {
+          color: #dc2626;
+          font-size: 0.85rem;
+          margin-bottom: 1rem;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          font-weight: 500;
+        }
+
+        .tag-dot {
+          width: 8px;
+          height: 8px;
+          background: #dc2626;
+          border-radius: 50%;
+          box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+        }
+
+        .companies-title {
+          font-size: clamp(2rem, 4vw, 2.5rem);
+          color: #ffffff;
+          font-weight: 400;
+          letter-spacing: -0.01em;
+        }
+
+        .slider-wrapper {
+          position: relative;
+          margin: 0 auto;
+        }
+
+        .slider-gradient {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 120px;
+          z-index: 10;
+          pointer-events: none;
+        }
+
+        .slider-gradient-left {
+          left: 0;
+          background: linear-gradient(to right, #0a0a0a 0%, transparent 100%);
+        }
+
+        .slider-gradient-right {
+          right: 0;
+          background: linear-gradient(to left, #0a0a0a 0%, transparent 100%);
+        }
+
+        .slider-container {
+          position: relative;
+          overflow: hidden;
+          padding: 1rem 0;
+          height: 120px;
+        }
+
+        .slider-track {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+          position: absolute;
+          left: 0;
+        }
+
+        .company-card {
+          flex-shrink: 0;
+          width: 180px;
+          height: 90px;
+        }
+
+        .card-content {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          background: rgba(26, 26, 26, 0.8);
+          border: 1px solid #3f3f46;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1.25rem;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+        }
+
+        .card-content:hover {
+          border-color: #dc2626;
+          background: rgba(220, 38, 38, 0.05);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 20px rgba(220, 38, 38, 0.15);
+        }
+
+        .company-logo {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+          filter: grayscale(100%) brightness(1.2);
+          opacity: 0.7;
+          transition: all 0.3s ease;
+        }
+
+        .card-content:hover .company-logo {
+          filter: grayscale(0%) brightness(1);
+          opacity: 1;
+        }
+
+        @media (max-width: 1023px) {
+          .companies-slider-section {
+            padding: 5rem 1.5rem;
+          }
+
+          .companies-header {
+            margin-bottom: 3rem;
+          }
+
+          .slider-gradient {
+            width: 80px;
+          }
+
+          .company-card {
+            width: 160px;
+            height: 80px;
+          }
+        }
+
+        @media (max-width: 767px) {
+          .companies-slider-section {
+            padding: 4rem 1.25rem;
+          }
+
+          .companies-header {
+            margin-bottom: 2.5rem;
+          }
+
+          .companies-tag {
+            font-size: 0.75rem;
+          }
+
+          .slider-gradient {
+            width: 60px;
+          }
+
+          .slider-container {
+            height: 100px;
+          }
+
+          .slider-track {
+            gap: 1.5rem;
+          }
+
+          .company-card {
+            width: 140px;
+            height: 70px;
+          }
+        }
+      `}</style>
+    </>
   );
 }
