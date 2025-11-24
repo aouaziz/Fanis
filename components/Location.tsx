@@ -18,14 +18,12 @@ export default function Location() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Split title text for character animation
-      const split = new SplitText(titleRef.current, { 
+      const split = new SplitText(titleRef.current, {
         type: "chars,words",
         charsClass: "char",
-        wordsClass: "word"
+        wordsClass: "word",
       });
 
-      // Animate title characters with stagger
       gsap.from(split.chars, {
         scrollTrigger: {
           trigger: titleRef.current,
@@ -40,7 +38,6 @@ export default function Location() {
         ease: "power4.out",
       });
 
-      // Address animation with blur effect
       gsap.from(addressRef.current, {
         scrollTrigger: {
           trigger: addressRef.current,
@@ -55,7 +52,6 @@ export default function Location() {
         ease: "power3.out",
       });
 
-      // Line animation with elastic effect
       gsap.from(lineRef.current, {
         scrollTrigger: {
           trigger: lineRef.current,
@@ -68,7 +64,6 @@ export default function Location() {
         ease: "elastic.out(1, 0.5)",
       });
 
-      // Map animation with scale and rotation
       gsap.from(mapRef.current, {
         scrollTrigger: {
           trigger: mapRef.current,
@@ -84,7 +79,6 @@ export default function Location() {
         ease: "power4.out",
       });
 
-      // Parallax effect on map
       gsap.to(mapRef.current, {
         scrollTrigger: {
           trigger: mapRef.current,
@@ -101,26 +95,26 @@ export default function Location() {
   }, []);
 
   return (
-    <section 
-      ref={sectionRef} 
-      id="location" 
+    <section
+      ref={sectionRef}
+      id="location"
       className="location-section min-h-screen flex items-center justify-center relative overflow-hidden py-32 px-4 md:px-8 lg:px-12"
     >
       <div className="max-w-[1400px] w-full mx-auto">
         <div className="text-center mb-16 md:mb-20">
-          <h2 
-            ref={titleRef} 
+          <h2
+            ref={titleRef}
             className="text-[3rem] md:text-[4.5rem] lg:text-[6rem] xl:text-[7rem] leading-[0.95] mb-8 font-light text-white tracking-[-0.03em]"
-            style={{ 
-              textRendering: 'optimizeLegibility',
-              WebkitFontSmoothing: 'antialiased',
-              perspective: '1000px'
+            style={{
+              textRendering: "optimizeLegibility",
+              WebkitFontSmoothing: "antialiased",
+              perspective: "1000px",
             }}
           >
             Fanis à Casablanca
           </h2>
-          <p 
-            ref={addressRef} 
+          <p
+            ref={addressRef}
             className="text-lg md:text-xl lg:text-2xl text-zinc-400 font-light max-w-3xl mx-auto leading-relaxed tracking-[-0.01em]"
           >
             75 Bd Moulay Youssef, Etage 5, App N°22, Casablanca 20250
@@ -128,7 +122,7 @@ export default function Location() {
           <div ref={lineRef} className="location-line"></div>
         </div>
 
-        <div ref={mapRef} className="map-wrapper" style={{ transformStyle: 'preserve-3d' }}>
+        <div ref={mapRef} className="map-wrapper" style={{ transformStyle: "preserve-3d" }}>
           <div className="map-overlay"></div>
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.4055240460816!2d-7.63259962333938!3d33.5947811417455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7d3d96e641b87%3A0x563d3f44802bf7c8!2sFanis%20Network!5e0!3m2!1sen!2sma!4v1761139421052!5m2!1sen!2sma"
@@ -139,6 +133,7 @@ export default function Location() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="location-map"
+            title="Localisation Fanis Network"
           />
         </div>
       </div>

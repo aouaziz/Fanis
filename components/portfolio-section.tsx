@@ -82,9 +82,9 @@ export default function PortfolioSection() {
 
   return (
     <section
-      id="portfolio"
+      id="projects"
       ref={sectionRef}
-      className="py-24 px-4 relative bg-white overflow-hidden"
+      className="py-32 px-4 md:px-8 lg:px-12 relative bg-[#060606] overflow-hidden"
     >
       {/* Animated Grid Pattern Background */}
       <AnimatedGridPattern
@@ -95,22 +95,23 @@ export default function PortfolioSection() {
         className={cn(
           "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
           "absolute inset-0 w-full h-full",
-          "rotate-12 scale-150"
+          "rotate-12 scale-150",
+          "text-white/5"
         )}
       />
-      <div className="container mx-auto max-w-7xl relative z-10">
+      <div className="container mx-auto max-w-6xl relative z-10">
         <div
           ref={titleRef}
           className="text-center mb-16"
           style={{ opacity: 1 }}
         >
-          <p className="text-sm font-semibold text-[#007BFF] mb-2 tracking-wider uppercase">
+          <p className="text-sm font-semibold text-[#dc2626] mb-3 tracking-[0.3em] uppercase">
             Nos Preuves
           </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-balance text-[#333333]">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light mb-6 text-balance text-white">
             Réalisations & Portfolio
           </h2>
-          <p className="text-lg text-[#333333]/70 max-w-2xl mx-auto">
+          <p className="text-lg text-zinc-400 max-w-2xl mx-auto">
             Découvrez nos transformations digitales réussies
           </p>
         </div>
@@ -123,7 +124,7 @@ export default function PortfolioSection() {
           {projects.map((project, index) => (
             <Card
               key={index}
-              className="group overflow-hidden border-2 border-[#EEEEEE] hover:border-[#007BFF]/30 transition-all duration-500 cursor-pointer hover:shadow-2xl"
+              className="group overflow-hidden border border-[#27272a] bg-[#111111] hover:border-[#dc2626]/60 transition-all duration-500 cursor-pointer hover:-translate-y-1"
             >
               <CardContent className="p-0">
                 <div className="relative overflow-hidden aspect-video">
@@ -133,14 +134,14 @@ export default function PortfolioSection() {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
-                    <ExternalLink className="text-white" size={24} />
+                    <ExternalLink className="text-white" size={24} aria-hidden="true" />
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-2xl font-bold text-[#333333] mb-2 group-hover:text-[#B31818] transition-colors">
+                  <h3 className="text-2xl font-semibold text-white mb-2 group-hover:text-[#dc2626] transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-[#333333]/70">{project.industry}</p>
+                  <p className="text-zinc-400">{project.industry}</p>
                 </div>
               </CardContent>
             </Card>

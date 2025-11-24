@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
@@ -24,7 +23,6 @@ export default function ContactSection() {
   const formRef = useRef<HTMLFormElement | null>(null);
   const contactInfoRef = useRef<HTMLDivElement | null>(null);
   const formFieldsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const contactItemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -115,24 +113,6 @@ export default function ContactSection() {
         duration: 1,
         ease: "power3.out",
       });
-
-      // Animate contact items with stagger
-      contactItemsRef.current.forEach((item, index) => {
-        if (item) {
-          gsap.from(item, {
-            scrollTrigger: {
-              trigger: item,
-              start: "top 90%",
-              toggleActions: "play none none none",
-            },
-            opacity: 0,
-            x: 50,
-            duration: 0.8,
-            delay: 0.15 * index,
-            ease: "power3.out",
-          });
-        }
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -194,7 +174,7 @@ export default function ContactSection() {
             <input
               type="hidden"
               name="_next"
-              value="https://fanis-network.com/merci"
+              value="https://fanis.ma/merci"
             />
 
             <div 
@@ -276,76 +256,23 @@ export default function ContactSection() {
           </form>
 
           {/* Contact Info */}
-          <div ref={contactInfoRef} className="flex flex-col gap-12">
-            <h3 className="text-3xl md:text-4xl font-light text-white tracking-[-0.02em]">
-              Informations de Contact
-            </h3>
-
-            <div className="flex flex-col gap-10">
-              {/* Email */}
-              <div 
-                ref={(el) => (contactItemsRef.current[0] = el)}
-                className="flex items-start gap-6 transition-all duration-500 hover:translate-x-2 contact-item group"
-              >
-                <div className="contact-icon">
-                  <Mail size={22} strokeWidth={1.5} />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <div className="text-sm text-zinc-500 font-light tracking-wide">Email</div>
-                  <a
-                    href="mailto:fanisnetwork@gmail.com"
-                    className="text-white text-lg hover:text-red-600 transition-colors duration-300 font-light tracking-[-0.01em]"
-                  >
-                    fanisnetwork@gmail.com
-                  </a>
-                </div>
-              </div>
-
-              {/* Phone */}
-              <div 
-                ref={(el) => (contactItemsRef.current[1] = el)}
-                className="flex items-start gap-6 transition-all duration-500 hover:translate-x-2 contact-item group"
-              >
-                <div className="contact-icon">
-                  <Phone size={22} strokeWidth={1.5} />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <div className="text-sm text-zinc-500 font-light tracking-wide">Téléphone</div>
-                  <a
-                    href="tel:+212666148606"
-                    className="text-white text-lg hover:text-red-600 transition-colors duration-300 font-light tracking-[-0.01em]"
-                  >
-                    +212 666 148 606
-                  </a>
-                </div>
-              </div>
-
-              {/* Address */}
-              <div 
-                ref={(el) => (contactItemsRef.current[2] = el)}
-                className="flex items-start gap-6 transition-all duration-500 hover:translate-x-2 contact-item group"
-              >
-                <div className="contact-icon">
-                  <MapPin size={22} strokeWidth={1.5} />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <div className="text-sm text-zinc-500 font-light tracking-wide">Adresse</div>
-                  <span className="text-white text-lg leading-relaxed font-light tracking-[-0.01em]">
-                    75 Bd Moulay Youssef, Etage 5,
-                    <br />
-                    App N°22, Casablanca 20250
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Footer Stat */}
-            <div className="border-t border-zinc-800 pt-10 mt-6">
-              <p className="text-zinc-400 leading-relaxed text-base font-light tracking-[-0.01em]">
-                Rejoignez plus de{" "}
-                <span className="text-white font-normal">40 clients satisfaits</span>{" "}
-                qui ont transformé leur présence digitale avec Fanis Network.
-              </p>
+        <div ref={contactInfoRef} className="flex flex-col gap-8">
+            <p className="text-sm uppercase tracking-[0.4em] text-[#dc2626] mb-3">
+              Fanis à Casablanca
+            </p>
+            <div className="map-wrapper contact-map">
+              <div className="map-overlay"></div>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.4055240460816!2d-7.63259962333938!3d33.5947811417455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7d3d96e641b87%3A0x563d3f44802bf7c8!2sFanis%20Network!5e0!3m2!1sen!2sma!4v1761139421052!5m2!1sen!2sma"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="location-map"
+                title="Localisation Fanis Network"
+              />
             </div>
           </div>
         </div>

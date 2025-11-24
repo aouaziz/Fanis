@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useCallback } from "react";
 import {
-  Mail,
-  Phone,
-  MapPin,
+  MailOpen,
+  PhoneCall,
+  MapPinned,
   Instagram,
   Linkedin,
   Facebook,
@@ -114,13 +114,13 @@ export default function Footer() {
                 </li>
                 <li>
                   <a
-                    href="#expertise"
+                    href="#about"
                     onClick={(e) => {
                       e.preventDefault();
-                      scrollToSection("expertise");
+                      scrollToSection("about");
                     }}
                   >
-                    Expertise
+                    À propos
                   </a>
                 </li>
                 <li>
@@ -152,21 +152,16 @@ export default function Footer() {
               <h4 className="footer-heading">Contact</h4>
               <ul className="contact-info">
                 <li>
-                  <Mail size={20} className="contact-icon" />
+                  <MailOpen size={20} className="contact-icon" />
                   <a href="mailto:fanisnetwork@gmail.com">
                     fanisnetwork@gmail.com
                   </a>
                 </li>
                 <li>
-                  <Phone size={20} className="contact-icon" />
+                  <PhoneCall size={20} className="contact-icon" />
                   <a href="tel:+212666148606">+212 666 148 606</a>
                 </li>
-                <li>
-                  <MapPin size={20} className="contact-icon" />
-                  <span>
-                    75 Bd Moulay Youssef, Etage 5, App N°22, Casablanca 20250
-                  </span>
-                </li>
+                
               </ul>
             </div>
           </div>
@@ -197,6 +192,8 @@ export default function Footer() {
           grid-template-columns: 2fr 1fr 2fr;
           gap: 4rem;
           margin-bottom: 3rem;
+          justify-items: center;
+          text-align: center;
         }
 
         .footer-col {
@@ -263,6 +260,7 @@ export default function Footer() {
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
+          align-items: center;
         }
 
         .footer-links a {
@@ -286,15 +284,17 @@ export default function Footer() {
           display: flex;
           flex-direction: column;
           gap: 1rem;
+          align-items: center;
         }
 
         .contact-info li {
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           gap: 0.75rem;
           color: #d4d4d4;
           font-size: 0.95rem;
           line-height: 1.5;
+          justify-content: center;
         }
 
         .contact-icon {
@@ -371,7 +371,7 @@ export default function Footer() {
           }
 
           .footer-col {
-            text-align: left;
+            text-align: center;
           }
 
           .footer-contact {

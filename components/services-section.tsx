@@ -112,7 +112,7 @@ export default function ServicesSection() {
           {services.map((service, index) => (
             <div
               key={index}
-              className="group p-8 border border-[#27272a] bg-[#1a1a1a] hover:border-[#dc2626] transition-all duration-300 cursor-pointer"
+              className="group p-8 border border-[#27272a] bg-[#1a1a1a] hover:border-[#dc2626] transition-all duration-300"
             >
               <div className="mb-6">
                 <service.icon className="text-[#dc2626]" size={32} strokeWidth={1.5} />

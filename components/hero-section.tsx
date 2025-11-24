@@ -531,11 +531,12 @@ function HeroSection() {
           }
 
           .chevron {
-            stroke-width: 14;
+            stroke-width: 12;
+            width: clamp(6rem, 24vw, 12rem);
           }
 
           .logo-element {
-            gap: -2.5rem;
+            gap: 1rem;
           }
 
           .eye {
@@ -572,7 +573,11 @@ function HeroSection() {
           }
 
           .logo-element {
-            gap: -3rem;
+            gap: 0.5rem;
+          }
+
+          .chevron {
+            display: none;
           }
 
           .eye {

@@ -14,27 +14,42 @@ export default function LoadingScreen() {
         setTimeout(() => {
           setIsLoading(false);
         }, 600);
-      }, 1000);
+      }, 800);
     };
+
+    document.body.classList.add('is-preloading');
 
     if (document.readyState === 'complete') {
       handleLoad();
     } else {
       window.addEventListener('load', handleLoad);
-      return () => window.removeEventListener('load', handleLoad);
     }
+
+    return () => {
+      window.removeEventListener('load', handleLoad);
+      document.body.classList.remove('is-preloading');
+    };
   }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      document.body.classList.remove('is-preloading');
+    }
+  }, [isLoading]);
 
   if (!isLoading) return null;
 
   return (
     <>
-      <div className={`loading-screen ${fadeOut ? 'fade-out' : ''}`}>
+      <div
+        className={`loading-screen ${fadeOut ? 'fade-out' : ''}`}
+        aria-hidden="true"
+      >
         <div className="loading-content">
           <div className="logo-wrapper">
             <Image
               src="/favicon.png"
-              alt="Loading..."
+              alt="Fanis Network"
               width={120}
               height={120}
               priority

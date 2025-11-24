@@ -122,14 +122,23 @@
     box-sizing: border-box;
     @apply border-border outline-ring/50;
   }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: #0a0a0a;
-    color: #ffffff;
-    overflow-x: hidden;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    @apply bg-background text-foreground;
-  }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  @apply bg-background text-foreground;
+}
+
+.app-shell {
+  transition: opacity 0.4s ease;
+}
+
+body.is-preloading .app-shell {
+  opacity: 0;
+  visibility: hidden;
+}
 }
 
 html {
@@ -260,33 +269,40 @@ html {
 }
 
 .contact-icon {
-  width: 48px;
-  height: 48px;
-  border: 1px solid rgba(63, 63, 70, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  font-size: 1.25rem;
   color: #dc2626;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 .contact-item:hover .contact-icon {
-  border-color: #dc2626;
-  background: rgba(220, 38, 38, 0.1);
+  color: #ffffff;
+}
+
+.contact-map {
+  height: 440px;
 }
 
 @media (max-width: 767px) {
   .contact-icon {
-    width: 44px;
-    height: 44px;
+    font-size: 1.1rem;
+  }
+
+  .contact-map {
+    height: 320px;
   }
 }
 
 @media (max-width: 480px) {
   .contact-icon {
-    width: 40px;
-    height: 40px;
+    font-size: 1rem;
+  }
+
+  .contact-map {
+    height: 260px;
   }
   
   .form-input,
@@ -295,5 +311,3 @@ html {
     font-size: 0.95rem;
   }
 }
-
-

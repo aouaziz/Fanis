@@ -47,17 +47,14 @@ function Navbar() {
           <a href="#projects" onClick={(e) => { e.preventDefault(); scrollToSection("projects"); }}>
             Réalisations
           </a>
+           <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection("contact"); }}>
+              Contact
+            </a>
+            <a href="/Blog" >
+              Blog
+            </a>
         </div>
         <div className="nav-right">
-          <button 
-            className="consultation-btn" 
-            onClick={() => scrollToSection("contact")}
-          >
-            <span className="btn-text">CONSULTATION GRATUITE</span>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M1 15L15 1M15 1H1M15 1V15" stroke="currentColor" strokeWidth="2"/>
-            </svg>
-          </button>
           <button 
             className={`menu-btn ${menuOpen ? 'active' : ''}`}
             onClick={() => setMenuOpen(!menuOpen)}
@@ -106,6 +103,9 @@ function Navbar() {
             </a>
             <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection("contact"); }}>
               Contact
+            </a>
+            <a href="/Blog" >
+              Blog
             </a>
             <button 
               className="menu-mobile-cta" 
@@ -202,6 +202,10 @@ function Navbar() {
         .nav-center {
           display: none;
           gap: 2.5rem;
+          flex: 1;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
         }
 
         .nav-center a {
@@ -217,41 +221,12 @@ function Navbar() {
         .nav-right {
           display: flex;
           align-items: center;
-          gap: 2rem;
+          gap: 1.5rem;
+          margin-left: auto;
         }
 
         .menu-mobile-cta {
           display: none;
-        }
-
-        .consultation-btn {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          background: #dc2626;
-          color: #fff;
-          border: none;
-          padding: 0.75rem;
-          border-radius: 50%;
-          width: 44px;
-          height: 44px;
-          font-size: 0.8rem;
-          font-weight: 600;
-          letter-spacing: 0.05em;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
-        }
-
-        .consultation-btn .btn-text {
-          display: none;
-        }
-
-        .consultation-btn:hover {
-          background: #b91c1c;
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
         }
 
         .menu-btn {
@@ -431,16 +406,8 @@ function Navbar() {
         @media (min-width: 1024px) {
           .nav-center {
             display: flex;
-          }
-
-          .consultation-btn {
-            width: auto;
-            border-radius: 50px;
-            padding: 0.75rem 1.5rem;
-          }
-
-          .consultation-btn .btn-text {
-            display: inline;
+            flex: 1;
+            justify-content: center;
           }
 
           .menu-content {
@@ -507,17 +474,9 @@ function Navbar() {
             padding: 1rem 1.5rem;
           }
 
-          .nav-right {
-            gap: 1rem;
-          }
-
           .menu-btn {
             width: 28px;
             height: 20px;
-          }
-
-          .consultation-btn {
-            display: none;
           }
 
           .full-menu {

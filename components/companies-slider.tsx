@@ -5,32 +5,7 @@ import gsap from "gsap";
 
 export default function CompaniesSlider() {
   const sliderRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!sliderRef.current) return;
-
-    const slider = sliderRef.current;
-
-    const content = slider.innerHTML;
-    slider.innerHTML = content + content + content;
-
-    const slides = slider.children;
-    let totalWidth = 0;
-    for (let i = 0; i < slides.length / 3; i++) {
-      totalWidth += slides[i].clientWidth;
-    }
-
-    const tl = gsap.to(slider, {
-      x: -totalWidth,
-      duration: 30,
-      ease: "none",
-      repeat: -1,
-    });
-
-    return () => {
-      tl.kill();
-    };
-  }, []);
+  const animationRef = useRef<gsap.core.Tween | null>(null);
 
   const companies = [
     { name: "APPA", logo: "/companies/APPA.png" },
@@ -46,6 +21,42 @@ export default function CompaniesSlider() {
     { name: "ODEC", logo: "/companies/ODEC.png" },
   ];
 
+  const marqueeCompanies = [...companies, ...companies];
+
+  useEffect(() => {
+    if (!sliderRef.current) return;
+
+    const slider = sliderRef.current;
+
+    const createAnimation = () => {
+      if (!sliderRef.current) return;
+      animationRef.current?.kill();
+
+      const totalWidth = sliderRef.current.scrollWidth / 2;
+      animationRef.current = gsap.fromTo(
+        sliderRef.current,
+        { x: 0 },
+        {
+          x: -totalWidth,
+          duration: 30,
+          ease: "none",
+          repeat: -1,
+        }
+      );
+    };
+
+    createAnimation();
+
+    const resizeObserver = new ResizeObserver(() => {
+      createAnimation();
+    });
+    resizeObserver.observe(slider);
+
+    return () => {
+      animationRef.current?.kill();
+      resizeObserver.disconnect();
+    };
+  }, []);
   return (
     <>
       <div className="companies-slider-section">
@@ -63,9 +74,18 @@ export default function CompaniesSlider() {
             <div className="slider-gradient slider-gradient-right"></div>
 
             <div className="slider-container">
-              <div ref={sliderRef} className="slider-track">
-                {companies.map((company, index) => (
-                  <div key={index} className="company-card">
+              <div
+                ref={sliderRef}
+                className="slider-track"
+                aria-live="off"
+                aria-label="Liste des partenaires Fanis Network"
+              >
+                {marqueeCompanies.map((company, index) => (
+                  <div
+                    key={`${company.name}-${index}`}
+                    className="company-card"
+                    aria-hidden={index >= companies.length}
+                  >
                     <div className="card-content">
                       <img
                         src={company.logo}
@@ -164,6 +184,7 @@ export default function CompaniesSlider() {
           gap: 2rem;
           position: absolute;
           left: 0;
+          will-change: transform;
         }
 
         .company-card {

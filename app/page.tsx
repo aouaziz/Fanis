@@ -3,10 +3,10 @@ import Navbar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
 import ServicesSection from "@/components/services-section";
 import WhyChooseSection from "@/components/why-choose-section";
-import Location from "@/components/Location";
 import ContactSection from "@/components/contact-section";
 import Footer from "@/components/footer";
 import CompaniesSlider from "@/components/companies-slider";
+import PortfolioSection from "@/components/portfolio-section";
 
 export default function Home() {
   return (
@@ -17,13 +17,8 @@ export default function Home() {
       <ServicesSection />
       <WhyChooseSection />
       <CompaniesSlider />
-      {/* <PortfolioSection /> */}
-      <div className="relative">
-      <Location />
-      <div className="relative z-10 -mt-60">
+      <PortfolioSection />
       <ContactSection />
-      </div>
-      </div>
       <Footer />
     </main>
   );
