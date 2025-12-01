@@ -5,7 +5,7 @@ function HeroGraphic() {
     <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
 
       {/* --- HERO GRAPHIC WRAPPER --- */}
-      <div className="flex h-[400px] w-full max-w-[900px] sm:h-[500px] sm:max-w-[800px] md:h-[900px] md:w-[600px] lg:h-[1000px] lg:w-[2400px] xl:h-[1200px] xl:w-[2800px] relative">
+      <div className="flex h-[400px] w-[90vw] max-w-[900px] items-center justify-center sm:h-[500px] sm:max-w-[800px] md:h-[900px] md:w-[600px] lg:h-[1000px] lg:w-[2400px] xl:h-[1200px] xl:w-[2800px] relative">
 
         {/* RED BACKGROUND GLOW */}
         <div className="absolute -inset-24 bg-[radial-gradient(ellipse,rgba(220,38,38,0.2)_10%,rgba(220,38,38,0.08)_50%,transparent_60%)] blur-[60px] animate-hero-pulse" />
