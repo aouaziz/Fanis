@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 export default function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,9 +12,7 @@ export default function LoadingScreen() {
     const handleLoad = () => {
       setTimeout(() => {
         setFadeOut(true);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 600);
+        setTimeout(() => setIsLoading(false), 600);
       }, 800);
     };
 
@@ -40,149 +39,32 @@ export default function LoadingScreen() {
   if (!isLoading) return null;
 
   return (
-    <>
-      <div
-        className={`loading-screen ${fadeOut ? 'fade-out' : ''}`}
-        aria-hidden="true"
-      >
-        <div className="loading-content">
-          <div className="logo-wrapper">
-            <Image
-              src="/favicon.png"
-              alt="Fanis Network"
-              width={120}
-              height={120}
-              priority
-              className="loading-logo"
-            />
-          </div>
-          <div className="loading-spinner">
-            <div className="spinner-ring"></div>
-            <div className="spinner-ring spinner-ring-delayed"></div>
-          </div>
+    <div
+      aria-hidden="true"
+      className={cn(
+        'fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a0a0a] transition-opacity duration-700',
+        fadeOut && 'pointer-events-none opacity-0'
+      )}
+    >
+      <div className="relative flex items-center justify-center">
+        <div className="relative z-10 animate-loading-pulse">
+          <Image
+            src="/favicon.png"
+            alt="Fanis Network"
+            width={120}
+            height={120}
+            priority
+            className="h-[80px] w-[80px] object-contain drop-shadow-[0_4px_20px_rgba(220,38,38,0.2)] sm:h-[100px] sm:w-[100px] lg:h-[120px] lg:w-[120px]"
+          />
+        </div>
+        <div className="absolute -inset-7 flex items-center justify-center">
+          <div className="absolute h-[140px] w-[140px] rounded-full border-[2.5px] border-transparent border-r-[#dc2626] border-t-[#dc2626] animate-loading-spin sm:h-[160px] sm:w-[160px] lg:h-[180px] lg:w-[180px] lg:border-[3px]" />
+          <div
+            className="absolute h-[120px] w-[120px] rounded-full border-2 border-transparent border-r-[rgba(220,38,38,0.4)] border-t-[rgba(220,38,38,0.4)] animate-loading-spin sm:h-[140px] sm:w-[140px] sm:border-[2.5px] lg:h-[160px] lg:w-[160px] lg:border-[3px]"
+            style={{ animationDelay: '-0.75s' }}
+          />
         </div>
       </div>
-
-      <style jsx>{`
-        .loading-screen {
-          position: fixed;
-          inset: 0;
-          z-index: 9999;
-          background: #0a0a0a;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-
-        .loading-screen.fade-out {
-          opacity: 0;
-          visibility: hidden;
-        }
-
-        .loading-content {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .logo-wrapper {
-          position: relative;
-          z-index: 2;
-          animation: pulse 2s ease-in-out infinite;
-        }
-
-        .loading-logo {
-          width: 120px;
-          height: 120px;
-          object-fit: contain;
-          filter: drop-shadow(0 4px 20px rgba(220, 38, 38, 0.2));
-        }
-
-        .loading-spinner {
-          position: absolute;
-          inset: -30px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .spinner-ring {
-          position: absolute;
-          width: 180px;
-          height: 180px;
-          border: 3px solid transparent;
-          border-top-color: #dc2626;
-          border-right-color: #dc2626;
-          border-radius: 50%;
-          animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-        }
-
-        .spinner-ring-delayed {
-          width: 160px;
-          height: 160px;
-          border-top-color: rgba(220, 38, 38, 0.4);
-          border-right-color: rgba(220, 38, 38, 0.4);
-          animation-delay: -0.75s;
-        }
-
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-
-        @keyframes pulse {
-          0%, 100% {
-            transform: scale(1);
-            filter: drop-shadow(0 4px 20px rgba(220, 38, 38, 0.2));
-          }
-          50% {
-            transform: scale(1.05);
-            filter: drop-shadow(0 6px 30px rgba(220, 38, 38, 0.4));
-          }
-        }
-
-        @media (max-width: 768px) {
-          .loading-logo {
-            width: 100px;
-            height: 100px;
-          }
-
-          .spinner-ring {
-            width: 160px;
-            height: 160px;
-            border-width: 2.5px;
-          }
-
-          .spinner-ring-delayed {
-            width: 140px;
-            height: 140px;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .loading-logo {
-            width: 80px;
-            height: 80px;
-          }
-
-          .spinner-ring {
-            width: 140px;
-            height: 140px;
-            border-width: 2px;
-          }
-
-          .spinner-ring-delayed {
-            width: 120px;
-            height: 120px;
-          }
-        }
-      `}</style>
-    </>
+    </div>
   );
 }

@@ -3,282 +3,86 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
+const companies = [
+  { name: "APPA", logo: "/companies/APPA.png" },
+  { name: "Bourse de Casablanca", logo: "/companies/BourseDeCasablanca.png" },
+  { name: "Electroplanet", logo: "/companies/Electroplanet.png" },
+  { name: "English SoftSkills", logo: "/companies/EnglishSoftSkills.png" },
+  { name: "INAMS", logo: "/companies/INAMS.png" },
+  { name: "LinkedIn", logo: "/companies/LinkedIn.png" },
+  { name: "Myconos", logo: "/companies/MYCONOS.png" },
+  { name: "Marjane", logo: "/companies/Marjane-logo.png" },
+  { name: "Shell", logo: "/companies/Shell.png" },
+  { name: "TotalEnergies", logo: "/companies/TotalEnergies.png" },
+  { name: "ODEC", logo: "/companies/ODEC.png" },
+];
+
 export default function CompaniesSlider() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<gsap.core.Tween | null>(null);
-
-  const companies = [
-    { name: "APPA", logo: "/companies/APPA.png" },
-    { name: "Bourse de Casablanca", logo: "/companies/BourseDeCasablanca.png" },
-    { name: "Electroplanet", logo: "/companies/Electroplanet.png" },
-    { name: "English SoftSkills", logo: "/companies/EnglishSoftSkills.png" },
-    { name: "INAMS", logo: "/companies/INAMS.png" },
-    { name: "LinkedIn", logo: "/companies/LinkedIn.png" },
-    { name: "Myconos", logo: "/companies/MYCONOS.png" },
-    { name: "Marjane", logo: "/companies/Marjane-logo.png" },
-    { name: "Shell", logo: "/companies/Shell.png" },
-    { name: "TotalEnergies", logo: "/companies/TotalEnergies.png" },
-    { name: "ODEC", logo: "/companies/ODEC.png" },
-  ];
-
   const marqueeCompanies = [...companies, ...companies];
 
   useEffect(() => {
     if (!sliderRef.current) return;
 
-    const slider = sliderRef.current;
-
     const createAnimation = () => {
       if (!sliderRef.current) return;
       animationRef.current?.kill();
-
       const totalWidth = sliderRef.current.scrollWidth / 2;
       animationRef.current = gsap.fromTo(
         sliderRef.current,
         { x: 0 },
-        {
-          x: -totalWidth,
-          duration: 30,
-          ease: "none",
-          repeat: -1,
-        }
+        { x: -totalWidth, duration: 30, ease: "none", repeat: -1 }
       );
     };
 
     createAnimation();
-
-    const resizeObserver = new ResizeObserver(() => {
-      createAnimation();
-    });
-    resizeObserver.observe(slider);
+    const resizeObserver = new ResizeObserver(() => createAnimation());
+    resizeObserver.observe(sliderRef.current);
 
     return () => {
       animationRef.current?.kill();
       resizeObserver.disconnect();
     };
   }, []);
+
   return (
-    <>
-      <div className="companies-slider-section">
-        <div className="companies-container">
-          <div className="companies-header">
-            <div className="companies-tag">
-              <span className="tag-dot"></span>
-              Nos Partenaires
-            </div>
-            <h2 className="companies-title">Ils nous font confiance</h2>
-          </div>
+    <section className="bg-[#0a0a0a] px-5 py-16 sm:px-6 lg:px-12">
+      <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-10 text-center">
+        <div className="space-y-3">
+          <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#dc2626]">
+            <span className="h-2 w-2 rounded-full bg-[#dc2626]" />
+            Nos Partenaires
+          </span>
+          <h2 className="text-3xl font-light text-white sm:text-4xl">Ils nous font confiance</h2>
+        </div>
 
-          <div className="slider-wrapper">
-            <div className="slider-gradient slider-gradient-left"></div>
-            <div className="slider-gradient slider-gradient-right"></div>
+        <div className="relative w-full overflow-hidden py-4">
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent sm:w-32" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent sm:w-32" />
 
-            <div className="slider-container">
+          <div
+            ref={sliderRef}
+            aria-live="off"
+            aria-label="Liste des partenaires"
+            className="flex w-max flex-nowrap items-center gap-8 will-change-transform"
+          >
+            {marqueeCompanies.map((company, index) => (
               <div
-                ref={sliderRef}
-                className="slider-track"
-                aria-live="off"
-                aria-label="Liste des partenaires Fanis Network"
+                key={`${company.name}-${index}`}
+                aria-hidden={index >= companies.length}
+                className="flex h-[80px] w-[160px] items-center justify-center rounded-xl border border-[#3f3f46] bg-[rgba(26,26,26,0.85)] p-5 transition hover:-translate-y-0.5 hover:border-[#dc2626] hover:bg-[rgba(220,38,38,0.05)] sm:h-[90px] sm:w-[180px]"
               >
-                {marqueeCompanies.map((company, index) => (
-                  <div
-                    key={`${company.name}-${index}`}
-                    className="company-card"
-                    aria-hidden={index >= companies.length}
-                  >
-                    <div className="card-content">
-                      <img
-                        src={company.logo}
-                        alt={company.name}
-                        className="company-logo"
-                      />
-                    </div>
-                  </div>
-                ))}
+                <img
+                  src={company.logo}
+                  alt={company.name}
+                  className="h-full w-full object-contain opacity-70 transition hover:opacity-100"
+                />
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .companies-slider-section {
-          background: #0a0a0a;
-          padding: 6rem 2rem;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .companies-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          width: 100%;
-        }
-
-        .companies-header {
-          text-align: center;
-          margin-bottom: 4rem;
-        }
-
-        .companies-tag {
-          color: #dc2626;
-          font-size: 0.85rem;
-          margin-bottom: 1rem;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          font-weight: 500;
-        }
-
-        .tag-dot {
-          width: 8px;
-          height: 8px;
-          background: #dc2626;
-          border-radius: 50%;
-          box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
-        }
-
-        .companies-title {
-          font-size: clamp(2rem, 4vw, 2.5rem);
-          color: #ffffff;
-          font-weight: 400;
-          letter-spacing: -0.01em;
-        }
-
-        .slider-wrapper {
-          position: relative;
-          margin: 0 auto;
-        }
-
-        .slider-gradient {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          width: 120px;
-          z-index: 10;
-          pointer-events: none;
-        }
-
-        .slider-gradient-left {
-          left: 0;
-          background: linear-gradient(to right, #0a0a0a 0%, transparent 100%);
-        }
-
-        .slider-gradient-right {
-          right: 0;
-          background: linear-gradient(to left, #0a0a0a 0%, transparent 100%);
-        }
-
-        .slider-container {
-          position: relative;
-          overflow: hidden;
-          padding: 1rem 0;
-          height: 120px;
-        }
-
-        .slider-track {
-          display: flex;
-          align-items: center;
-          gap: 2rem;
-          position: absolute;
-          left: 0;
-          will-change: transform;
-        }
-
-        .company-card {
-          flex-shrink: 0;
-          width: 180px;
-          height: 90px;
-        }
-
-        .card-content {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          background: rgba(26, 26, 26, 0.8);
-          border: 1px solid #3f3f46;
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 1.25rem;
-          transition: all 0.3s ease;
-          backdrop-filter: blur(10px);
-        }
-
-        .card-content:hover {
-          border-color: #dc2626;
-          background: rgba(220, 38, 38, 0.05);
-          transform: translateY(-2px);
-          box-shadow: 0 4px 20px rgba(220, 38, 38, 0.15);
-        }
-
-        .company-logo {
-          max-width: 100%;
-          max-height: 100%;
-          object-fit: contain;
-          filter: grayscale(100%) brightness(1.2);
-          opacity: 0.7;
-          transition: all 0.3s ease;
-        }
-
-        .card-content:hover .company-logo {
-          filter: grayscale(0%) brightness(1);
-          opacity: 1;
-        }
-
-        @media (max-width: 1023px) {
-          .companies-slider-section {
-            padding: 5rem 1.5rem;
-          }
-
-          .companies-header {
-            margin-bottom: 3rem;
-          }
-
-          .slider-gradient {
-            width: 80px;
-          }
-
-          .company-card {
-            width: 160px;
-            height: 80px;
-          }
-        }
-
-        @media (max-width: 767px) {
-          .companies-slider-section {
-            padding: 4rem 1.25rem;
-          }
-
-          .companies-header {
-            margin-bottom: 2.5rem;
-          }
-
-          .companies-tag {
-            font-size: 0.75rem;
-          }
-
-          .slider-gradient {
-            width: 60px;
-          }
-
-          .slider-container {
-            height: 100px;
-          }
-
-          .slider-track {
-            gap: 1.5rem;
-          }
-
-          .company-card {
-            width: 140px;
-            height: 70px;
-          }
-        }
-      `}</style>
-    </>
+    </section>
   );
 }
